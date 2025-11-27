@@ -1,0 +1,55 @@
+.top-bar {
+    height: 48px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--spacing-md);
+    gap: var(--spacing-lg);
+}
+
+.top-bar-left {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+}
+
+.pair-selector {
+    min-width: 120px;
+    height: 32px;
+}
+
+.timeframe-switcher {
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.tf-button {
+    min-width: 44px;
+    height: 32px;
+    padding: 0 var(--spacing-sm);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.top-bar-right {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.starred-tools {
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.starred-tools button {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

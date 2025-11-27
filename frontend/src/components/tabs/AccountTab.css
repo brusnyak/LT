@@ -1,0 +1,82 @@
+.account-tab {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--surface-color);
+}
+
+.account-tab .tab-content {
+    flex: 1;
+    overflow: auto;
+    padding: 20px;
+}
+
+.section {
+    margin-bottom: 32px;
+}
+
+.section h3 {
+    margin: 0 0 16px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.stat-card {
+    background: var(--card-bg, #1e222d);
+    border-radius: 8px;
+    padding: 16px;
+    border: 1px solid var(--border-color, #2b2b43);
+}
+
+.stat-card.primary {
+    border-color: #26a69a;
+    background: linear-gradient(135deg, rgba(38, 166, 154, 0.1) 0%, var(--card-bg, #1e222d) 100%);
+}
+
+.stat-label {
+    font-size: 11px;
+    color: var(--text-muted, #787b86);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-color, #d1d4dc);
+    margin-bottom: 4px;
+}
+
+.stat-detail {
+    font-size: 12px;
+    color: var(--text-muted, #787b86);
+}
+
+.stat-change {
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+.stat-change .positive {
+    color: #26a69a;
+}
+
+.stat-change .negative {
+    color: #ef5350;
+}
+
+.stat-value.positive {
+    color: #26a69a;
+}
+
+.stat-value.negative {
+    color: #ef5350;
+}

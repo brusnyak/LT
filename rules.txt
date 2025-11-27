@@ -1,0 +1,80 @@
+Step 1 : Initial Profit Target Achievement
+50,000$ challenge account as an example :
+Objective: To pass step 1, each trader must achieve a profit target of 8%.
+Account Start Value: $50,000.
+Target Profit Amount: $4,000 (8% of the starting account value).
+Required Account Balance to Pass: traders must increase their account balance to at least $54,000 to successfully pass the step 1 of this challenge and move to the next step .
+step 2: Continued Profit Target Achievement
+Objective: traders must achieve a profit target of 6% on their challenge account.
+Account Start Value: $50,000 (the balance will be reset back to 50,000$ after passing the step 1 challenge)
+Target Profit Amount: $3,000 (6% of the account value).
+Required Account Balance for Success: traders must increase their account balance to at least $53,000 to meet the profit target.
+
+
+Objective: Implement strict risk management protocols by setting drawdown limits based on the original account balance, with adjustments occurring only when the account dips below the starting balance.
+ 
+
+Challenge Phase: Steps 1 & 2
+ 
+Start Value: $50,000 (for example)
+Daily Loss Limit: 7% (up to $3,500 loss allowed per day)
+Total Loss Limit: 12% (up to $6,000 total drawdown allowed)
+Drawdown Calculation: Initial drawdown limits are calculated from the $50,000 start value. These limits remain fixed based on this starting balance unless the account falls below this level and resets.
+Example Calculation:
+If the account starts at $50,000 for example, the lowest it can fall to is $44,000 (12% of $50,000 is $6,000).
+If the account then reaches a new high of $55,000, the allowable drawdown still considers the original balance, thus allowing the account to drop only to $49,000 (12% of $55,000 is $6,600, but the limit is fixed at $6,000, calculated as 12% from the original $50,000).
+
+
+Challenge Phase step 1:
+ 
+Objective: Qualify for the next phase Step 2 account by completing at least 4 trading day. A “trading day” is defined as a day during which you open and close at least one trade in it.
+Requirement: you must trade on at least 4 day during this challenge phase
+ 
+Challenge Phase step 2:
+ 
+Objective: Qualify for the next phase Funded (Live) Account by completing at least 4 trading day. A “trading day” is defined as a day during which you open and close at least one trade in it.
+Requirement: you must trade on at least 4 day during this challenge phase.
+
+NOTE: the account will be hard breached if inactive for 10 days. perform at least one trade during that time to avoid it.
+
+
+News Trading in Finance
+Objective: Take advantage of market shifts caused by major news releases by trading on expected price movements.
+
+Strategy: Traders prepare for major events such as economic announcements (e.g., unemployment rates, interest decisions) or unexpected occurrences (e.g., political events, company earnings). The strategy combines fundamental and technical analysis to predict price effects and plan trades.
+
+Risk Management: High volatility during news events requires careful use of risk management tools like stop-loss orders to prevent large losses.
+
+Platform Policy: Our platform allows news trading. Traders must observe all platform rules and risk controls to ensure they manage risks effectively while trading on news events.
+
+
+Copy Trading on Our Platform
+Objective: We explicitly allow the use of copy trading on our platform, enabling traders to replicate the trades of selected accounts within our controlled environment.
+
+Scope: Copy trading is restricted to internal accounts only, ensuring that all activities are contained within our platform. External accounts cannot be linked or utilized for copy trading purposes.
+ 
+
+Key Rules:
+Internal Accounts Only: Copy trading is permissible only between accounts that are hosted on our platform.
+Master Account Requirement: The main account used for initiating copy trades must be an account that has been provided by our platform.
+Important Note: Although we allow copy trading, we currently do not offer any proprietary tools for it. Traders must use their own third-party tools or solutions to facilitate the copying of trades.
+
+Benefits:
+This policy enables traders to leverage successful trading strategies by mirroring trades between their accounts, potentially enhancing efficiency and profitability.
+
+
+Leverage Use in Trading Phases:
+Step 1 and Step 2:
+Leverage: 1:100
+Purpose: To enhance the trading capacity of participants, allowing them to manage larger positions with a smaller amount of actual capital, facilitating a higher potential for gain as well as risk.
+
+
+No consistency rule in this plan !
+
+
+
+
+ALSO:
+minimum 2RR per trade
+0.5% per trade
+no more than 2 trades at a time

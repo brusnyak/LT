@@ -1,0 +1,199 @@
+//@version=6
+strategy('EMA Trend Strategy', overlay = true, max_labels_count = 500, max_lines_count = 500, max_boxes_count = 500,
+     initial_capital = 25000, commission_type = strategy.commission.percent, commission_value = 0.05, slippage = 2,
+     explicit_plot_zorder=true)
+
+//---------------------------------------------------------------------------------------------------------------------}
+//CONSTANTS & STRINGS & INPUTS
+//---------------------------------------------------------------------------------------------------------------------{
+BULLISH                         = +1
+BEARISH                         = -1
+
+GREEN                           = #4a7c59
+RED                             = #8b5a5a
+BLUE                            = #2157f3
+GRAY                            = #878b94
+
+TREND_GROUP                     = 'EMA Trend Signal'
+SIGNAL_GROUP                    = 'Signal Generation'
+
+// Signal Generation Inputs
+enableBuySignals  = input.bool(true, 'Enable Buy Signals', group=SIGNAL_GROUP, tooltip='Enable generation of buy signals based on defined logic.')
+enableSellSignals = input.bool(true, 'Enable Sell Signals', group=SIGNAL_GROUP, tooltip='Enable generation of sell signals based on defined logic.')
+
+// EMA Trend Inputs
+showEmaInput = input.bool(true, 'Show EMA Trend', group=TREND_GROUP)
+emaUseCurrentRes = input.bool(true, title='Use Current Chart Resolution?', group=TREND_GROUP)
+emaResCustom = input.timeframe('15', title='Custom Timeframe', group=TREND_GROUP)
+emaLen = input.int(20, title='EMA Length', minval=1, group=TREND_GROUP)
+emaType = input.int(2, minval=1, maxval=8, title='MA Type: 1=SMA, 2=EMA, 3=WMA, 4=Hull, 5=VWMA, 6=RMA, 7=TEMA, 8=T3', group=TREND_GROUP)
+emaFactorT3 = input.float(0.7, title='T3 Factor', minval=0, maxval=1, step=0.1, group=TREND_GROUP)
+emaColorDirection = input.bool(true, title='Color Based On Direction?', group=TREND_GROUP)
+emaLineWidth = input.int(4, title='Line Width', minval=1, maxval=5, group=TREND_GROUP)
+
+// Higher Timeframe EMA Inputs
+showEmaHtfInput = input.bool(true, 'Show Higher TF EMA Trend', group=TREND_GROUP)
+emaHtfResCustom = input.timeframe('240', title='Higher TF Custom Timeframe', group=TREND_GROUP) // 4 hours
+emaHtfLen = input.int(20, title='Higher TF EMA Length', minval=1, group=TREND_GROUP)
+emaHtfType = input.int(2, minval=1, maxval=8, title='Higher TF MA Type: 1=SMA, 2=EMA, 3=WMA, 4=Hull, 5=VWMA, 6=RMA, 7=TEMA, 8=T3', group=TREND_GROUP)
+emaHtfFactorT3 = input.float(0.7, title='Higher TF T3 Factor', minval=0, maxval=1, step=0.1, group=TREND_GROUP)
+emaHtfColorDirection = input.bool(true, title='Higher TF Color Based On Direction?', group=TREND_GROUP)
+emaHtfLineWidth = input.int(2, title='Higher TF Line Width', minval=1, maxval=5, group=TREND_GROUP)
+
+//---------------------------------------------------------------------------------------------------------------------}
+//DATA STRUCTURES & VARIABLES
+//---------------------------------------------------------------------------------------------------------------------{
+// @type                            UDT representing trend bias
+// @field bias                      BULLISH or BEARISH
+type trend
+    int bias    
+
+// EMA Trend Variables
+var trend emaTrend                  = trend.new(0)
+var trend emaHtfTrend               = trend.new(0) // Higher timeframe EMA trend
+
+// ATR for Stop Loss/Take Profit
+var float atrVal = ta.atr(14)
+
+//---------------------------------------------------------------------------------------------------------------------}
+//USER-DEFINED FUNCTIONS
+//---------------------------------------------------------------------------------------------------------------------{
+// EMA Helper Functions
+emaGd(src, len, factor) => 
+    ta.ema(src, len) * (1 + factor) - ta.ema(ta.ema(src, len), len) * factor 
+emaT3(src, len, factor) => 
+    emaGd(emaGd(emaGd(src, len, factor), len, factor), len, factor)
+
+//---------------------------------------------------------------------------------------------------------------------}
+//MUTABLE VARIABLES & EXECUTION
+//---------------------------------------------------------------------------------------------------------------------{
+
+// EMA Trend Calculations
+emaSrc = close
+emaRes = emaUseCurrentRes ? timeframe.period : emaResCustom
+
+// Hull MA
+emaHullma = ta.wma(2 * ta.wma(emaSrc, emaLen/2) - ta.wma(emaSrc, emaLen), math.round(math.sqrt(emaLen)))
+
+// TEMA
+emaEma1 = ta.ema(emaSrc, emaLen)
+emaEma2 = ta.ema(emaEma1, emaLen)
+emaEma3 = ta.ema(emaEma2, emaLen)
+emaTema = 3 * (emaEma1 - emaEma2) + emaEma3
+
+// Tilson T3
+emaTilT3 = emaT3(emaSrc, emaLen, emaFactorT3)
+
+// Select MA Type
+emaAvg = switch emaType
+    1 => ta.sma(emaSrc, emaLen)
+    2 => ta.ema(emaSrc, emaLen)
+    3 => ta.wma(emaSrc, emaLen)
+    4 => emaHullma
+    5 => ta.vwma(emaSrc, emaLen)
+    6 => ta.rma(emaSrc, emaLen)
+    7 => emaTema
+    8 => emaTilT3
+
+// Get MA from selected timeframe
+ema = request.security(syminfo.tickerid, emaRes, emaAvg, lookahead=barmerge.lookahead_off)
+
+// EMA Trend Logic
+ema_up = ema >= ema[1]
+ema_down = ema < ema[1]
+
+// Update EMA trend
+if showEmaInput
+    emaTrend.bias := ema_up ? BULLISH : ema_down ? BEARISH : emaTrend.bias
+
+// EMA Colors
+emaTrendColor = emaColorDirection ? (ema_up ? color.new(color.green, 0) : ema_down ? color.new(color.red, 0) : color.new(color.gray, 0)) : color.new(color.blue, 0)
+
+// Plot EMA
+plot(showEmaInput ? ema : na, title='EMA Trend', linewidth=emaLineWidth, color=emaTrendColor)
+
+// Higher Timeframe EMA Calculations
+emaHtfSrc = close
+emaHtfRes = emaHtfResCustom
+
+// Hull MA for HTF
+emaHtfHullma = ta.wma(2 * ta.wma(emaHtfSrc, emaHtfLen/2) - ta.wma(emaHtfSrc, emaHtfLen), math.round(math.sqrt(emaHtfLen)))
+
+// TEMA for HTF
+emaHtfEma1 = ta.ema(emaHtfSrc, emaHtfLen)
+emaHtfEma2 = ta.ema(emaHtfEma1, emaHtfLen)
+emaHtfEma3 = ta.ema(emaHtfEma2, emaHtfLen)
+emaHtfTema = 3 * (emaHtfEma1 - emaHtfEma2) + emaHtfEma3
+
+// Tilson T3 for HTF
+emaHtfTilT3 = emaT3(emaHtfSrc, emaHtfLen, emaHtfFactorT3)
+
+// Select MA Type for HTF
+emaHtfAvg = switch emaHtfType
+    1 => ta.sma(emaHtfSrc, emaHtfLen)
+    2 => ta.ema(emaHtfSrc, emaHtfLen)
+    3 => ta.wma(emaHtfSrc, emaHtfLen)
+    4 => emaHtfHullma
+    5 => ta.vwma(emaHtfSrc, emaHtfLen)
+    6 => ta.rma(emaHtfSrc, emaHtfLen)
+    7 => emaHtfTema
+    8 => emaHtfTilT3
+
+// Get MA from selected higher timeframe
+emaHtf = request.security(syminfo.tickerid, emaHtfRes, emaHtfAvg, lookahead=barmerge.lookahead_off)
+
+// Higher Timeframe EMA Trend Logic
+emaHtf_up = emaHtf >= emaHtf[1]
+emaHtf_down = emaHtf < emaHtf[1]
+
+// Update Higher Timeframe EMA trend
+if showEmaHtfInput
+    emaHtfTrend.bias := emaHtf_up ? BULLISH : emaHtf_down ? BEARISH : emaHtfTrend.bias
+
+// Higher Timeframe EMA Colors
+emaHtfTrendColor = emaHtfColorDirection ? (emaHtf_up ? color.new(color.green, 0) : emaHtf_down ? color.new(color.red, 0) : color.new(color.gray, 0)) : color.new(color.blue, 0)
+
+// Plot Higher Timeframe EMA
+plot(showEmaHtfInput ? emaHtf : na, title='Higher TF EMA Trend', linewidth=emaHtfLineWidth, color=emaHtfTrendColor)
+
+// Strategy Entry/Exit Logic (EMA-only)
+float takeProfit = na
+float stopLoss = na
+
+// Buy when EMA turns up and Higher Timeframe EMA is bullish
+if enableBuySignals and ema_up and not ema_up[1] and emaHtfTrend.bias == BULLISH
+    strategy.entry('Buy', strategy.long, comment='EMA Buy Signal')
+    takeProfit := close + (atrVal * 2) // 2x ATR Take Profit
+    stopLoss := close - (atrVal * 1)   // 1x ATR Stop Loss
+    strategy.exit('Exit Buy', from_entry='Buy', stop=stopLoss, limit=takeProfit)
+
+// Sell when EMA turns down and Higher Timeframe EMA is bearish
+if enableSellSignals and ema_down and not ema_down[1] and emaHtfTrend.bias == BEARISH
+    strategy.entry('Sell', strategy.short, comment='EMA Sell Signal')
+    takeProfit := close - (atrVal * 2) // 2x ATR Take Profit
+    stopLoss := close + (atrVal * 1)   // 1x ATR Stop Loss
+    strategy.exit('Exit Sell', from_entry='Sell', stop=stopLoss, limit=takeProfit)
+
+//---------------------------------------------------------------------------------------------------------------------}
+//ALERTS
+//---------------------------------------------------------------------------------------------------------------------{
+// One-time test alert
+alert("EMA Strategy Pine Script is running and alerts are active!", alert.freq_once_per_bar_close)
+
+// EMA Trend Alerts
+ema_trend_up = showEmaInput and emaTrend.bias == BULLISH and (emaTrend[1]).bias != BULLISH
+ema_trend_down = showEmaInput and emaTrend.bias == BEARISH and (emaTrend[1]).bias != BEARISH
+alertcondition(ema_trend_up, 'EMA Trend Up', 'EMA trend turned bullish')
+alertcondition(ema_trend_down, 'EMA Trend Down', 'EMA trend turned bearish')
+
+// Higher Timeframe EMA Trend Alerts
+ema_htf_trend_up = showEmaHtfInput and emaHtfTrend.bias == BULLISH and (emaHtfTrend[1]).bias != BULLISH
+ema_htf_trend_down = showEmaHtfInput and emaHtfTrend.bias == BEARISH and (emaHtfTrend[1]).bias != BEARISH
+alertcondition(ema_htf_trend_up, 'Higher TF EMA Trend Up', 'Higher TF EMA trend turned bullish')
+alertcondition(ema_htf_trend_down, 'Higher TF EMA Trend Down', 'Higher TF EMA trend turned bearish')
+
+// Signal Alerts
+alertcondition(enableBuySignals and ema_up and not ema_up[1] and emaHtfTrend.bias == BULLISH, 'Buy Signal', 'Buy signal generated: EMA Trend Up (LTF) and EMA Trend Up (HTF)')
+alertcondition(enableSellSignals and ema_down and not ema_down[1] and emaHtfTrend.bias == BEARISH, 'Sell Signal', 'Sell signal generated: EMA Trend Down (LTF) and EMA Trend Down (HTF)')
+
+//---------------------------------------------------------------------------------------------------------------------}

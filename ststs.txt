@@ -1,0 +1,33 @@
+Instrument
+Currency flag
+EURUSD
+Currency flag
+Resolution
+5m
+Margin
+$20,000.00
+Date start/end
+01/08/2025 - 28/10/2025
+ROI
+
+29.83%
+
+$5,965.23
+
+Win Ratio
+
+75.48%
+
+979 of 1297 positions
+
+Max Drawdown
+
+4.49%
+
+$897.55
+
+Time in Market
+
+40.07%
+
+7131 of 17798 candles

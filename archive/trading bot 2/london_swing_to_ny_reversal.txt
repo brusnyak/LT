@@ -1,0 +1,44 @@
+## **Термінологія**
+
+- **London Swing to NY Reversal** - Cвінг в Лондон з розворотом на відкритті Нью-Йорка (або просто NY Reversal).
+- **DO**  (Daily Open) - рівень відкриття денної свічі. За Київським часом для Forex DO в 00:00, для Фондового ринку DO в 01:00
+- **NYM**  (**New York Midnight Open) -** рівень відкриття дня за Нью-Йоркським часом 00:00 (Київ – 07:00, в період переходу на літній час в Америці та Канаді - 06:00). Вважається справжнім рівнем відкриття на ринку Forex та використовується як основний. Застосовуємо лише на ринку Forex.
+
+В першу чергу дивимось по напрямку руху ціни на 1D / 1W імпульсу або у місцях його ймовірного зародження, коли ціна тестує 1D / 1W / 1M - POI
+
+**Cвінг під час Лондона з розворотом на відкритті Нью-Йорку (або просто NY Reversal) -** другий за важливістю шаблон, який починається так само, як і Classic Buy/Sell Day, але в момент відкриття Нью-Йорка ціна не продовжує рух, а формує розворот в протилежному (відносно Лондона) напрямку.
+
+**Бичачий приклад London Swing to NY Reversal**
+
+[](https://lh7-us.googleusercontent.com/kLJy-5j3-XkqBeZEE9nCbLe_JW1XRHnQbNnYQcwsmETFRjb4r4CxQVIZPIpc5zvtRyoygcPX5VihuT-2bKV9njrMGwb8XXqDI5ci4uJOuunoGaai69dUuYKq-8abIXCPug-DaicU_twS3weEBBpiK2g)
+
+**Ведмежий приклад London Swing to NY Reversal**
+
+[](https://lh7-us.googleusercontent.com/2lODSuge2wm2KL2VT5YWIQqpBzqYG6iBoj4CPC8BvzDtLEHVGeSlmeDtiVaDwr_hrpQG670bGCKmu4NXrox3e10L07K3x7N3ECjFLuXNnsxVrX4QtbxdlEJADLR_vfy9Gv5J2d9Ku19mGFxYIfRkFWI)
+
+Азійська та Лондонська сесії (кілзони) – мають ідентичний характер цінової дії, як і в профілі Classic Buy/Sell Day. Відмінність лише у русі Нью-Йорка.
+
+**New-York Killzone (Нью-Йоркська кілзона):**
+
+1. Reversal на відкритті.
+2. Continuation на відкритті.
+
+Якщо Лондон не досягає ключової зони інтересу (≥H1 POI), проте зупиняється перед нею, Нью-Йорк на відкритті о 15:00 знімає Лондон та формує Reversal модель входу. Подальший рух Нью-Йорка відбувається у протилежному від Лондона напрямку, з цілями до ліквідності Лондона, Азії або рівнів NYM/DO або ≥H1 FTA зон на момент закриття Нью-Йорка (17:00 -19:00).
+
+Якщо Лондон досягає ключової зони інтересу (≥H1 POI) або знімає певний пул ліквідності старшого таймфрейму до 12:00 - 14:00, вже формуючи розворот, то Нью-Йорк не зніматиме сформований свінг Лондона, а просто продовжить рух у протилежному від Лондона напрямку з цілями до ліквідності Лондона, Азії або рівнів NYM/DO або ≥H1 FTA зон до моменту закриття (17:00 -19:00).
+
+**Робота Нью-Йорка з Лондоном у профілі London Swing to NY Reversal**
+
+[](https://lh7-us.googleusercontent.com/6Gzj_u6Tr_sTXhN9hrlnoVhXFfHtMqm35cI_pBNUyS6urfxdyVMNXo0H3lxiK-nxDgJVRe6XAXm0XQNH7h4aG3Vqgsdbhy6GBniqM3jFdinU8Brh_QtJlN2MDMMsl4zhI1n9u1GNrkdLIHHoXJ07AMk)
+
+**Пошук та відкриття позицій**
+
+1. При класичній роботі Лондона з Азією описаною вище.
+2. Reversal або Continuation модель входу під час відкриття Нью-Йорка у проміжку 15:00 – 16:00.
+
+**Сценарії скасування торгівлі в Нью-Йорк (Лондон можна торгувати)**
+
+1. Якщо Лондон із Нью-Йорком не тестують ≥H1 POI або не працюють з ліквідністю, при цьому формуючи компресію або рівні мінімуми/максимуми.
+2. Якщо під час Нью-Йорка (о 15:30) виходять важливі новини із червоною відміткою.
+
+[](https://lh7-us.googleusercontent.com/dysBfwFrGN9nLtpQ6Hth4Nc8x0CYQmTdpxt0YpwOXQBKYCVr430ddn1po-uVgamLdNNQQo72oxLfbWrC_WWswDmjYb8J-FmV7jyAYbv1KAk0AhVJI_4oPHHZsOQPzYMlcFb9wBPzjLL-69KUtQd9PIc)

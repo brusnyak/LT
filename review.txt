@@ -1,0 +1,7 @@
+1. market structure is now not attached to the price but is fixed on the chart. fixed by x axis, but when you move y axis, it doesn't move with it. when you move again by x axis, it auto aligns to the price, not critical.
+a. not very clear, it shows bos/choch not considering the direction. in down trend it shows choch for the uptrend, despite the fact it's not acurate cause the price goes even lower. and vica versa.
+2. OB doesn't have end, let's display them for max 20 bars. and OB now dissapear when i move the chart.
+3. fwg shows nicely, but we still need to adjust it, shows too many instances and doesn't end when the price touches it, so it coves the accumulation
+4. liquidity also shows nicely, but:
+a. it is static, doesn't end when the price touches it, and continues to the static end. 
+b. liq from swings inverts 180 when i move the chart, so it doesn't show the correct liquidity

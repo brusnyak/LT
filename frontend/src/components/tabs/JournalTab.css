@@ -1,0 +1,160 @@
+.journal-tab {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--surface-color);
+}
+
+.tab-header {
+    padding: 16px 20px;
+    background: var(--dark-bg, #131722);
+    border-bottom: 1px solid var(--border-color, #2b2b43);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tab-header h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.quick-stats {
+    display: flex;
+    gap: 24px;
+}
+
+.quick-stats .stat {
+    display: flex;
+    gap: 8px;
+    font-size: 13px;
+}
+
+.quick-stats .label {
+    color: var(--text-muted, #787b86);
+}
+
+.quick-stats .value {
+    font-weight: 600;
+    color: var(--text-color, #d1d4dc);
+}
+
+.quick-stats .value.positive {
+    color: #26a69a;
+}
+
+.quick-stats .value.negative {
+    color: #ef5350;
+}
+
+.tab-content {
+    flex: 1;
+    overflow: auto;
+    padding: 16px;
+}
+
+.trades-table-container {
+    overflow-x: auto;
+}
+
+.trades-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.trades-table thead {
+    position: sticky;
+    top: 0;
+    background: var(--dark-bg, #131722);
+    z-index: 10;
+}
+
+.trades-table th {
+    padding: 12px 8px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-muted, #787b86);
+    border-bottom: 2px solid var(--border-color, #2b2b43);
+}
+
+.trades-table td {
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--border-color, #2b2b43);
+}
+
+.trade-row {
+    transition: background 0.2s;
+}
+
+.trade-row:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.trade-row.tp_hit {
+    background: rgba(38, 166, 154, 0.05);
+}
+
+.trade-row.sl_hit {
+    background: rgba(239, 83, 80, 0.05);
+}
+
+.type-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.type-badge.long {
+    background: rgba(38, 166, 154, 0.2);
+    color: #26a69a;
+}
+
+.type-badge.short {
+    background: rgba(239, 83, 80, 0.2);
+    color: #ef5350;
+}
+
+.outcome-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.outcome-badge.tp_hit {
+    background: rgba(38, 166, 154, 0.2);
+    color: #26a69a;
+}
+
+.outcome-badge.sl_hit {
+    background: rgba(239, 83, 80, 0.2);
+    color: #ef5350;
+}
+
+.outcome-badge.active {
+    background: rgba(33, 150, 243, 0.2);
+    color: #2196f3;
+}
+
+.trades-table .sl {
+    color: #9c27b0;
+}
+
+.trades-table .tp {
+    color: #26a69a;
+}
+
+.trades-table .positive {
+    color: #26a69a;
+    font-weight: 600;
+}
+
+.trades-table .negative {
+    color: #ef5350;
+    font-weight: 600;
+}
