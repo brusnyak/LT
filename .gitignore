@@ -45,3 +45,14 @@ frontend/node_modules/
 data/
 *.csv
 !data/.keep
+
+# Environment variables
+.env
+backend/.env
+
+# Credentials and sensitive files
+**/credentials.py
+**/config/credentials.py
+archive/**/credentials.py
+archive/**/data.txt
+
