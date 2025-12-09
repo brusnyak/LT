@@ -1,3 +1,4 @@
+
 """Journal service for trade tracking and account management"""
 import pandas as pd
 from datetime import datetime
@@ -38,6 +39,65 @@ class JournalService:
             stats=stats
         )
     
+    def calculate_pnl(self, signal: Signal) -> float:
+        """Calculate PnL for a closed signal"""
+        if signal.outcome not in ['TP1_HIT', 'TP2_HIT', 'SL_HIT', 'TP_HIT']: # Assuming these are the "closed" outcomes
+            return 0.0
+            
+        if not signal.close_price:
+            return 0.0
+            
+        # Calculate PnL based on outcome
+        if signal.outcome == 'TP1_HIT':
+            # Partial Close: 50% at TP1, 50% at Close Price (which might be SL/BE or TP2)
+            # My logic in range_4h.py sets outcome to 'TP1_HIT' if it hit TP1 then SL (BE).
+            # If it hit TP2, outcome is 'TP2_HIT'.
+            
+            # Logic for TP1_HIT (Hit TP1, then stopped out at BE)
+            # 50% @ TP1, 50% @ Entry (0 PnL)
+            
+            pnl_tp1 = self._calc_trade_pnl(signal.type, signal.price, signal.tp, 0.5, signal.sl)
+            pnl_rest = self._calc_trade_pnl(signal.type, signal.price, signal.close_price, 0.5, signal.sl)
+            return pnl_tp1 + pnl_rest
+
+        elif signal.outcome == 'TP2_HIT':
+            # Hit TP1 then TP2
+            # 50% @ TP1, 50% @ TP2
+            pnl_tp1 = self._calc_trade_pnl(signal.type, signal.price, signal.tp, 0.5, signal.sl)
+            pnl_tp2 = self._calc_trade_pnl(signal.type, signal.price, signal.tp2, 0.5, signal.sl)
+            return pnl_tp1 + pnl_tp2
+            
+        else:
+            # Standard Close (SL hit immediately or TP hit immediately if single TP)
+            return self._calc_trade_pnl(signal.type, signal.price, signal.close_price, 1.0, signal.sl)
+
+    def _calc_trade_pnl(self, type: str, entry: float, exit: float, position_size_ratio: float, sl: float) -> float:
+        # We need to know the risk distance to calculate position size
+        # Position Size = Risk Amount / Stop Loss Distance
+        # PnL = Position Size * (Exit - Entry)
+        
+        risk_amount = self.balance * RISK_PERCENT
+        sl_distance = abs(entry - sl)
+        
+        if sl_distance == 0: # Avoid division by zero if SL is at entry
+            return 0.0
+            
+        # Assuming 1 unit of position size is 1$ PnL per 1 unit of price movement
+        # This is a simplification. In reality, it depends on instrument and lot size.
+        # For now, let's define position size such that 1R is risk_amount.
+        
+        # If 1R is risk_amount, and 1R is sl_distance * position_size,
+        # then position_size = risk_amount / sl_distance
+        
+        position_size = risk_amount / sl_distance
+        
+        pnl_per_unit = (exit - entry) * position_size
+        
+        if type == 'SHORT':
+            pnl_per_unit = -pnl_per_unit # Invert PnL for sell trades
+            
+        return pnl_per_unit * position_size_ratio
+    
     def _signal_to_trade(self, signal: Signal, pair: str) -> TradeRecord:
         """Convert a signal to a trade record with P&L"""
         # Calculate position size based on risk
@@ -55,17 +115,15 @@ class JournalService:
         balance_after = self.balance
         
         if signal.outcome:
-            if signal.outcome == 'TP_HIT':
-                # Won 2R
-                pnl = risk_amount * 2.0
-                rr_achieved = 2.0
-            elif signal.outcome == 'SL_HIT':
-                # Lost 1R
-                pnl = -risk_amount
-                rr_achieved = -1.0
+            pnl = self.calculate_pnl(signal)
+            
+            # Calculate RR achieved
+            # RR = PnL / Risk Amount
+            if risk_amount > 0:
+                rr_achieved = pnl / risk_amount
             
             # Update balance
-            balance_after = self.balance + pnl if pnl else self.balance
+            balance_after = self.balance + pnl
             self.balance = balance_after
         
         trade = TradeRecord(
@@ -101,9 +159,17 @@ class JournalService:
         
         win_rate = (wins / total * 100) if total > 0 else 0.0
         
-        # Average RR
-        rr_values = [t.rr_achieved for t in closed_trades if t.rr_achieved]
-        avg_rr = sum(rr_values) / len(rr_values) if rr_values else 0.0
+        # Average RR (Avg Win / Avg Loss)
+        winning_r = [t.rr_achieved for t in winning_trades if t.rr_achieved]
+        losing_r = [t.rr_achieved for t in losing_trades if t.rr_achieved]
+        
+        avg_win = sum(winning_r) / len(winning_r) if winning_r else 0.0
+        avg_loss = abs(sum(losing_r) / len(losing_r)) if losing_r else 1.0 # Default to 1 if no losses
+        
+        if avg_loss == 0:
+            avg_rr = 0.0
+        else:
+            avg_rr = avg_win / avg_loss
         
         # Total P&L
         total_pnl = sum(t.pnl for t in closed_trades if t.pnl) if closed_trades else 0.0

@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AI Trading Knowledge Base",
+  "description": "Schema for storing learned trading concepts from videos and charts",
+  "type": "object",
+  "properties": {
+    "videos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "description": "YouTube Video ID" },
+          "title": { "type": "string" },
+          "channel": { "type": "string" },
+          "publish_date": { "type": "string", "format": "date" },
+          "transcript_full": { "type": "string" },
+          "key_concepts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "concept_name": { "type": "string", "enum": ["Order Block", "FVG", "Liquidity", "Structure", "Entry Model"] },
+                "timestamp_start": { "type": "number" },
+                "timestamp_end": { "type": "number" },
+                "explanation": { "type": "string" },
+                "rules": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "visual_examples": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "image_path": { "type": "string" },
+                      "annotations": { "type": "object" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "strategies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "source_video_ids": { "type": "array", "items": { "type": "string" } },
+          "rules": {
+            "type": "object",
+            "properties": {
+              "entry": { "type": "array", "items": { "type": "string" } },
+              "stop_loss": { "type": "string" },
+              "take_profit": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

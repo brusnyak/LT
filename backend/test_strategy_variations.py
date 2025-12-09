@@ -2,10 +2,6 @@
 Test strategy variations for rapid optimization
 Run: python backend/test_strategy_variations.py
 """
-import sys
-import os
-sys.path.append(os.path.join(os.path.dirname(__file__), 'backend'))
-
 from app.core.data_loader import load_candle_data
 from app.strategies.range_4h import detect_4h_range, analyze_5m_signals
 from app.services.journal import JournalService
@@ -66,15 +62,23 @@ def run_all_tests():
     # V6: V5 + Min RR 2.0
     results['v6_trend_min_rr_2'] = test_trend_min_rr()
     
+    # V7: V3 + Prefer Higher RR (swing targets over FVG)
+    results['v7_higher_rr'] = test_higher_rr()
+    
+    # V8: V3 + Multi-Timeframe Confluence (4H/30M/5M)
+    results['v8_mtf_confluence'] = test_mtf_confluence()
+    
     print("\n" + "="*80)
     print("COMPARISON SUMMARY")
     print("="*80)
-    print(f"{'Version':<20} {'WR':<10} {'Avg RR':<10} {'Max DD':<10} {'P&L':<12}")
+    print(f"{'Version':<25} {'WR':<10} {'Avg RR':<10} {'Max DD':<10} {'P&L':<12}")
     print("-"*80)
     
     for name, result in results.items():
-        print(f"{name:<20} {result.stats.win_rate:>6.2f}%   {result.stats.avg_rr:>6.2f}R   "
+        print(f"{name:<25} {result.stats.win_rate:>6.2f}%   {result.stats.avg_rr:>6.2f}R   "
               f"{result.stats.max_drawdown:>6.2f}%   ${result.stats.total_pnl:>9.2f}")
+
+
 
 
 def test_dynamic_tp():
@@ -165,6 +169,53 @@ def test_trend_min_rr():
     result = journal.process_signals(signals, "EURUSD")
     
     print_results(result, "V6_TREND_MIN_RR_2")
+    return result
+
+def test_higher_rr():
+    """Test with V3 + Prefer Higher RR (swing targets)"""
+    print("\n" + "="*80)
+    print("V7: V3 + PREFER HIGHER RR (Swing Targets)")
+    print("="*80)
+    
+    df_4h = load_candle_data("EURUSD", "H4", limit=1000)
+    df_5m = load_candle_data("EURUSD", "M5", limit=5000)
+    
+    ranges = detect_4h_range(df_4h)
+    signals = analyze_5m_signals(df_5m, ranges, use_dynamic_tp=True, use_swing_filter=True, use_trend_filter=False, prefer_higher_rr=True, min_rr=1.5)
+    
+    journal = JournalService()
+    result = journal.process_signals(signals, "EURUSD")
+    
+    print_results(result, "V7_HIGHER_RR")
+    return result
+
+def test_mtf_confluence():
+    """Test with V3 + Multi-Timeframe Confluence (4H/30M/5M)"""
+    print("\n" + "="*80)
+    print("V8: V3 + MULTI-TIMEFRAME CONFLUENCE (4H/30M/5M)")
+    print("="*80)
+    
+    from app.strategies.mtf_confluence import check_mtf_confluence
+    
+    df_4h = load_candle_data("EURUSD", "H4", limit=1000)
+    df_30m = load_candle_data("EURUSD", "30M", limit=2000)
+    df_5m = load_candle_data("EURUSD", "M5", limit=5000)
+    
+    ranges = detect_4h_range(df_4h)
+    
+    # Get all signals first
+    all_signals = analyze_5m_signals(df_5m, ranges, use_dynamic_tp=True, use_swing_filter=True, use_trend_filter=False, min_rr=1.5)
+    
+    # Filter signals by MTF confluence
+    filtered_signals = []
+    for signal in all_signals:
+        if check_mtf_confluence(df_4h, df_30m, df_5m, signal.time, signal.type):
+            filtered_signals.append(signal)
+    
+    journal = JournalService()
+    result = journal.process_signals(filtered_signals, "EURUSD")
+    
+    print_results(result, "V8_MTF_CONFLUENCE")
     return result
 
 if __name__ == "__main__":

@@ -1,0 +1,157 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    background: #1e222d;
+    border-radius: 12px;
+    padding: 0;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    border: 1px solid #2b2b43;
+}
+
+.modal-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #2b2b43;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #d1d4dc;
+    font-size: 1.25rem;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: #787b86;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.modal-close:hover {
+    background: #2b2b43;
+    color: #d1d4dc;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.trade-type-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+}
+
+.trade-type-badge.long {
+    background: rgba(38, 166, 154, 0.2);
+    color: #26a69a;
+    border: 1px solid #26a69a;
+}
+
+.trade-type-badge.short {
+    background: rgba(239, 83, 80, 0.2);
+    color: #ef5350;
+    border: 1px solid #ef5350;
+}
+
+.trade-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: #131722;
+    border-radius: 6px;
+}
+
+.detail-row.highlight {
+    background: rgba(41, 98, 255, 0.1);
+    border: 1px solid #2962ff;
+}
+
+.detail-row .label {
+    color: #787b86;
+    font-size: 0.875rem;
+}
+
+.detail-row .value {
+    color: #d1d4dc;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.detail-row .value.time {
+    font-size: 0.875rem;
+    font-weight: 400;
+}
+
+.modal-footer {
+    padding: 1.5rem;
+    border-top: 1px solid #2b2b43;
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+.modal-footer button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+}
+
+.btn-cancel {
+    background: #2b2b43;
+    color: #d1d4dc;
+}
+
+.btn-cancel:hover {
+    background: #363a4f;
+}
+
+.btn-confirm {
+    background: #2962ff;
+    color: white;
+}
+
+.btn-confirm:hover {
+    background: #1e53e5;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(41, 98, 255, 0.4);
+}

@@ -1,0 +1,11 @@
+.drawing-overlay {
+    user-select: none;
+}
+
+.drawing-overlay svg {
+    overflow: visible;
+}
+
+.drawing-overlay g:hover {
+    opacity: 0.8;
+}

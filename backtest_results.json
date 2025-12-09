@@ -1,0 +1,57 @@
+{
+  "timestamp": "2025-12-01T15:13:34.927514",
+  "targets": {
+    "win_rate": 70.0,
+    "avg_rr": 2.0,
+    "max_dd": 4.0
+  },
+  "results": [
+    {
+      "pair": "EURUSD",
+      "strategy": "Range 4H",
+      "total_trades": 29,
+      "winning_trades": 8,
+      "losing_trades": 21,
+      "win_rate": 27.586206896551722,
+      "avg_rr": 3.2023878527040717,
+      "max_drawdown": 2.475124687812489,
+      "max_drawdown_pct": 2.475124687812489,
+      "total_pnl": 1615.576718480042,
+      "final_balance": 51615.57671848005,
+      "profit_factor": 652.7253864967449
+    },
+    {
+      "pair": "GBPUSD",
+      "strategy": "Range 4H",
+      "total_trades": 28,
+      "winning_trades": 5,
+      "losing_trades": 23,
+      "win_rate": 17.857142857142858,
+      "avg_rr": 3.4662224108619264,
+      "max_drawdown": 4.6806414331399555,
+      "max_drawdown_pct": 4.6806414331399555,
+      "total_pnl": -712.0006082922228,
+      "final_balance": 49287.999391707795,
+      "profit_factor": -152.11603333917103
+    },
+    {
+      "pair": "USDCAD",
+      "strategy": "Range 4H",
+      "total_trades": 23,
+      "winning_trades": 10,
+      "losing_trades": 13,
+      "win_rate": 43.47826086956522,
+      "avg_rr": 3.472810537812408,
+      "max_drawdown": 1.9850499375000041,
+      "max_drawdown_pct": 1.9850499375000041,
+      "total_pnl": 5925.394585749698,
+      "final_balance": 55925.3945857497,
+      "profit_factor": 2985.010338436227
+    }
+  ],
+  "summary": {
+    "total_tests": 3,
+    "passed": 0,
+    "failed": 3
+  }
+}

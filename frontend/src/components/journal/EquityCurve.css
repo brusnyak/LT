@@ -1,0 +1,45 @@
+.equity-curve {
+    background-color: var(--bg-surface-2);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.chart-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 20px;
+}
+
+.chart-header h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.chart-subtitle {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.custom-tooltip {
+    background-color: var(--bg-surface-3);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 8px 12px;
+    box-shadow: var(--shadow-sm);
+}
+
+.tooltip-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 0 0 4px 0;
+}
+
+.tooltip-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}

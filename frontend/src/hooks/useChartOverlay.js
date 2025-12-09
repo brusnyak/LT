@@ -14,7 +14,15 @@ export function useChartOverlay(
     orderBlockData,
     fvgData,
     liquidityData,
-    marketStructureData
+    marketStructureData,
+    premiumDiscountZones, // Add new prop
+    // New visibility props
+    showSwings,
+    showMarketStructure,
+    showOrderBlocks,
+    showFvgs,
+    showLiquidity,
+    showPremiumDiscount
 ) {
     const canvasRef = useRef(null);
 
@@ -76,7 +84,7 @@ export function useChartOverlay(
             };
 
             // 1. Draw Order Blocks with mitigation levels and Breaker Blocks
-            if (orderBlockData) {
+            if (orderBlockData && showOrderBlocks) {
                 orderBlockData.order_blocks.forEach((ob) => {
                     const obTime = new Date(ob.timestamp).getTime() / 1000;
                     const x1 = getX(obTime);
@@ -153,7 +161,7 @@ export function useChartOverlay(
             }
 
             // 2. Draw FVG - end when filled (price touches it)
-            if (fvgData) {
+            if (fvgData && showFvgs) {
                 fvgData.fvgs.forEach((fvg) => {
                     // Skip if filled - don't show filled FVGs
                     if (fvg.filled) return;
@@ -192,7 +200,7 @@ export function useChartOverlay(
             }
 
             // 3. Draw Liquidity - different styles for Session, EQH/EQL, and Swing
-            if (liquidityData) {
+            if (liquidityData && showLiquidity) {
                 liquidityData.liquidity_zones.forEach((liq) => {
                     // Skip swept liquidity
                     if (liq.swept) return;
@@ -259,8 +267,11 @@ export function useChartOverlay(
                 });
             }
 
-            // 4. Draw Market Structure Lines
-            if (marketStructureData) {
+            // 4. Draw Market Structure Lines (already handled by markers in TradingViewChart.jsx, but keeping for completeness if needed for lines)
+            // This section is effectively redundant if markers are used for BOS/CHOCH.
+            // However, if we want to draw lines *between* pivots for structure, this would be the place.
+            // For now, we'll keep it as is, but it won't be controlled by a new prop as it's already handled by markers.
+            if (marketStructureData && showMarketStructure) { // Added showMarketStructure check
                 marketStructureData.structure_events.forEach((event) => {
                     const pivotTime = new Date(event.pivot_timestamp).getTime() / 1000;
                     const breakTime = new Date(event.timestamp).getTime() / 1000;
@@ -300,6 +311,60 @@ export function useChartOverlay(
                     }
                 });
             }
+
+            // 5. Draw Premium/Discount/OTE Zones
+            if (premiumDiscountZones && showPremiumDiscount) {
+                premiumDiscountZones.forEach((zone) => {
+                    const zoneStartTime = new Date(zone.start_time).getTime() / 1000;
+                    const zoneEndTime = new Date(zone.end_time).getTime() / 1000;
+
+                    const x1 = getX(zoneStartTime);
+                    const x2 = getX(zoneEndTime);
+
+                    // Skip if completely off-screen
+                    if (x2 < 0 || x1 > width) return;
+
+                    const yTop = candleSeriesRef.current.priceToCoordinate(zone.top);
+                    const yBottom = candleSeriesRef.current.priceToCoordinate(zone.bottom);
+                    if (yTop === null || yBottom === null) return;
+
+                    const boxWidth = Math.max(1, x2 - x1);
+                    const rectY = Math.min(yTop, yBottom);
+                    const rectHeight = Math.abs(yBottom - yTop);
+
+                    // Parse color string (e.g., '#8b5a5a' or 'rgba(R,G,B,A)')
+                    let fillColor = zone.color;
+                    if (fillColor.startsWith('#')) {
+                        // Convert hex to rgba with some opacity
+                        const hex = fillColor.slice(1);
+                        const r = parseInt(hex.substring(0, 2), 16);
+                        const g = parseInt(hex.substring(2, 4), 16);
+                        const b = parseInt(hex.substring(4, 6), 16);
+                        fillColor = `rgba(${r}, ${g}, ${b}, 0.1)`; // Default opacity for zones
+                    } else if (!fillColor.startsWith('rgba')) {
+                        fillColor = `rgba(128, 128, 128, 0.1)`; // Fallback to grey with opacity
+                    }
+
+                    ctx.fillStyle = fillColor;
+                    ctx.fillRect(x1, rectY, boxWidth, rectHeight);
+
+                    // Add a border for OTE zones for emphasis
+                    if (zone.type === 'ote') {
+                        ctx.strokeStyle = zone.color;
+                        ctx.lineWidth = 1;
+                        ctx.setLineDash([4, 2]);
+                        ctx.strokeRect(x1, rectY, boxWidth, rectHeight);
+                        ctx.setLineDash([]);
+                    }
+
+                    // Add label for the zone
+                    ctx.fillStyle = zone.color;
+                    ctx.font = '10px sans-serif';
+                    ctx.textAlign = 'left';
+                    const labelText = zone.type.toUpperCase();
+                    ctx.fillText(labelText, x1 + 5, rectY + 12);
+                });
+            }
         };
 
         resizeCanvas();
@@ -321,7 +386,12 @@ export function useChartOverlay(
                 }
             }
         };
-    }, [chartContainerRef, chartRef, candleSeriesRef, orderBlockData, fvgData, liquidityData, marketStructureData]);
+    }, [
+        chartContainerRef, chartRef, candleSeriesRef,
+        orderBlockData, fvgData, liquidityData, marketStructureData, premiumDiscountZones,
+        // Add new visibility props to dependency array
+        showOrderBlocks, showFvgs, showLiquidity, showPremiumDiscount, showMarketStructure
+    ]);
 
     return null;
 }

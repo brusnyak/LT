@@ -1,0 +1,181 @@
+.balance-progress-bar {
+    background: linear-gradient(135deg, #1e222d 0%, #252a3a 100%);
+    border: 1px solid #2b2b43;
+    border-radius: 16px;
+    padding: 2rem;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+
+.current-balance,
+.goal-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.current-balance .label,
+.goal-info .label {
+    color: #787b86;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.current-balance .value {
+    color: #2962ff;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.goal-info .value {
+    color: #26a69a;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.progress-track {
+    margin-bottom: 1.5rem;
+}
+
+.progress-bar-container {
+    position: relative;
+    padding-bottom: 2rem;
+}
+
+.progress-bar-bg {
+    height: 12px;
+    background: #131722;
+    border-radius: 6px;
+    overflow: visible;
+    position: relative;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #2962ff 0%, #4179ff 100%);
+    border-radius: 6px;
+    position: relative;
+    transition: width 0.5s ease;
+}
+
+.progress-indicator {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translate(50%, -50%);
+}
+
+.indicator-dot {
+    width: 20px;
+    height: 20px;
+    background: #2962ff;
+    border: 3px solid #1e222d;
+    border-radius: 50%;
+    box-shadow: 0 0 16px rgba(41, 98, 255, 0.6);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.indicator-label {
+    position: absolute;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #2962ff;
+    color: white;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(41, 98, 255, 0.4);
+}
+
+.indicator-label::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #2962ff;
+}
+
+.progress-markers {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 12px;
+}
+
+.marker {
+    position: absolute;
+    transform: translateX(-50%);
+}
+
+.marker-dot {
+    width: 8px;
+    height: 8px;
+    background: #787b86;
+    border-radius: 50%;
+    margin: 0 auto 0.5rem;
+}
+
+.marker.current .marker-dot {
+    background: #2962ff;
+    box-shadow: 0 0 8px rgba(41, 98, 255, 0.6);
+}
+
+.marker-label {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #787b86;
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 16px rgba(41, 98, 255, 0.6);
+    }
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 24px rgba(41, 98, 255, 0.8);
+    }
+}
+
+.progress-stats {
+    display: flex;
+    gap: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #2b2b43;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.stat-label {
+    color: #787b86;
+    font-size: 0.75rem;
+}
+
+.stat-value {
+    color: #d1d4dc;
+    font-size: 1.125rem;
+    font-weight: 600;
+}

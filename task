@@ -1,0 +1,158 @@
+SMC Trading Platform - Master Task Checklist
+📌 Current Status
+Phase: Phase 6 (Intelligence & AI) - IN PROGRESS
+Current Focus: Chart formatting fix + Trade outcome backfill
+Database: 343 trades recorded (EURUSD: 166, XAUUSD: 94, GBPUSD: 83)
+
+✅ COMPLETED PHASES
+✅ Phase 1: Foundation & Gym (COMPLETE)
+Gym Tab: Manual trade recording with 3-click drawing
+Database: SQLite schema for trades, sessions, and challenges
+API: Endpoints for saving/retrieving trades
+Bugs Fixed: Crash at 28+ trades, Confirm/Cancel modal
+✅ Phase 2: Analysis Dashboard (COMPLETE)
+Journal Page: Gym Analysis toggle
+Visualizations: R:R distribution, Win Rate, Heatmap
+Metrics: Real-time calculation of trading stats
+Session Management: Delete sessions, detailed review
+✅ Phase 3: Strategy Calibration (COMPLETE)
+Pattern Extraction: Analyzed 50+ manual trades
+Strategy Logic: H4 Structure → M15 Shift → M5 POI
+Backtesting: Verified 92% WR on EURUSD
+Signal Generation:
+HumanTrainedStrategy
+implementation
+✅ Phase 4: Frontend Integration (COMPLETE)
+Signals Panel: Multi-pair support, "Human-Trained" strategy
+Chart Visualization: TradingView-style positions (Entry/SL/TP)
+Performance: Optimized signal generation (20x faster)
+Home Page: Real-time stats from backend
+✅ Phase 5: Data Flow & UI Polish (COMPLETE)
+Signal Acceptance:
+"Accept Trade" button on signals
+Backend endpoint POST /api/trades/accept
+Database storage for accepted trades
+Journal Integration:
+Fetch from /api/trades (Database) instead of strategy
+Calculate metrics from actual accepted trades
+Account Page:
+Modern UI with toggle switches
+Challenge progress tracking (Profit, Daily Loss, Max DD)
+Settings configuration (Risk, Leverage, etc.)
+Clear History:
+Granular delete (Signals, Trades, Sessions)
+Backend DELETE endpoints implemented
+✅ Phase 5b: Data Collection (COMPLETE)
+343 Manual Trades Recorded:
+EURUSD: 166 trades (79 LONG, 87 SHORT)
+XAUUSD: 94 trades (57 LONG, 37 SHORT)
+GBPUSD: 83 trades (42 LONG, 41 SHORT)
+Multi-pair Gym functionality working
+Trade data stored with entry/SL/TP
+🚀 CURRENT WORK
+✅ Phase 6a: Chart Formatting Fix (COMPLETE)
+Goal: Fix price display precision for all trading pairs.
+
+Chart Formatting:
+[x] Create /frontend/src/utils/pairFormatting.js utility
+[x] Update GymChart.jsx (4 locations with .toFixed(5))
+[x] Update TradingViewChart.jsx (3 locations)
+[x] Update SignalsPanel.jsx (signal prices + predictions)
+[x] Fixed timeframe mismatch (5M → M5)
+[x] Added priceFormatter for Y-axis labels
+✅ All pairs now display correct decimals
+
+⚠️ Phase 6b: Trade Outcome Backfill (DEPRECATED)
+Goal: Determine WIN/LOSS/BE status for all 343 trades.
+
+Issue Identified:
+
+- Backfill approach is fundamentally flawed
+- Tries to simulate outcomes from future data
+- Doesn't match actual manual trading decisions
+- Results: 47-60% WR (expected 95%)
+
+Decision:
+
+- Abandon backfill approach
+- Re-record trades properly with new system
+- Use TradingView-style position tool
+
+✅ Phase 6c: Enhanced Gym System (COMPLETE)
+Goal: Implement TradingView-style position drawing with screenshots and annotations.
+
+Requirements (User Confirmed):
+
+- TradingView-style position tool (mark Entry/SL/TP + Exit)
+- Drawing tools: Lines/arrows (1), Zones (2), Text (3)
+- Auto-screenshot on save
+- Re-record all 343 trades properly
+
+Implementation:
+[x] Create unified DrawingToolbar component
+[x] Implement TradingView-style position tool
+[x] Updated usePositionDrawing hook (4-click workflow)
+[x] Mark Entry, SL, TP (planned levels)
+[x] Mark Exit (actual close time/price)
+[x] Auto-calculate outcome (WIN/LOSS/BE)
+[x] Auto-calculate PnL
+[x] Enhanced trade confirmation modal
+[x] Display all trade details
+[x] Show auto-detected outcome
+[x] Notes textarea for trading logic
+[x] Screenshot button
+[x] Implement screenshot capture (html2canvas)
+[x] Created useScreenshot hook
+[x] Installed html2canvas dependency
+[x] Update database schema (exit_time, screenshot_path, annotations, notes)
+[x] Integrate into GymPage
+[x] Added DrawingToolbar
+[x] Connected EnhancedTradeModal
+[x] Updated position cards with outcome badges
+[x] Added notes display
+[x] Redesign Gym UX (TradingView Style)
+[x] Left Sidebar Tools
+[x] Floating Toolbar
+[x] Interactive Position Overlay (Drag & Drop)
+[ ] Add drawing tools (lines, zones, text) - FUTURE
+[ ] Test with 10-20 trades
+[ ] Re-record 343 trades with new system
+
+🤖 Phase 6c: AI Pattern Recognition (UPCOMING)
+Goal: Train CLIP classifier on your 343 trades.
+
+Data Preparation:
+[ ] Generate chart screenshots from trades
+[ ] Export trades with WIN/LOSS labels
+[ ] Create training dataset structure
+CLIP Integration:
+[ ] Set up CLIP model (openai/clip-vit-base-patch32)
+[ ] Extract embeddings from chart screenshots
+[ ] Train classifier on WIN/LOSS outcomes
+[ ] Deploy confidence scoring API
+Frontend Integration:
+[ ] Add "AI Confidence" to Gym UI
+[ ] Show "Matches your winning patterns" feedback
+[ ] Display confidence score (0-100%)
+
+⚡ Phase 7: Live Data & Execution (FUTURE)
+Goal: Connect to real markets via cTrader.
+
+cTrader Integration:
+[ ] Verify ctrader_client.py functionality
+[ ] Ensure real-time candle updates
+Live Execution:
+[ ] Button to "Execute on cTrader" (optional, semi-auto)
+[ ] Sync open positions from broker
+
+🛠 Phase 8: Refinement & Polish (FUTURE)
+Drawing Tools: Save analysis drawings to chart
+Notifications: Telegram bot for signals
+Social: Share trade setups
+
+📝 Notes & Decisions
+Data: 343 trades recorded (EURUSD: 166, XAUUSD: 94, GBPUSD: 83)
+AI Approach: CLIP + Classifier (fast, free, CPU-friendly)
+No GPT-4V: Using open-source models only
+Focus: Learn from YOUR trades, not external videos
+Strategy: Validated through 343+ manual trades

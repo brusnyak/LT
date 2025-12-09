@@ -1,0 +1,36 @@
+Phase 7: AI Learning Exploration - Implementation Plan
+Start Date: 2025-11-29 Estimated Time: 1 hour Goal: Validate the feasibility of building an AI that learns from trading videos (transcripts + charts).
+
+Overview
+We want to build a system that can watch a trading video (e.g., from Knox Welles), extract the trading rules from the audio (transcript), and correlate them with the visual examples on the chart (screenshots).
+
+This phase is a Proof of Concept (PoC) to:
+
+Extract text from YouTube videos.
+Analyze chart screenshots using a Vision Model (simulated or actual API).
+Define a data structure to store this "learned knowledge".
+Implementation Steps
+Step 1: YouTube Transcript Extraction (20 mins)
+ Create backend/research/youtube_extractor.py
+ Use youtube-transcript-api to fetch transcripts.
+ Test with a specific video ID (e.g., a Knox Welles video).
+ Output: JSON file with timestamped text.
+Step 2: Chart Analysis PoC (20 mins)
+ Create backend/research/vision_analyzer.py
+ Create a prompt for GPT-4V (or equivalent) to analyze a chart image.
+ Note: Since we might not have GPT-4V API access configured, we will create the prompt template and a mock response structure to validate the data flow.
+ Define the expected output JSON (e.g., {"order_blocks": [...], "entry": "..."}).
+Step 3: Knowledge Base Schema (15 mins)
+ Create docs/ai_learning/schema.json
+ Define how we store:
+Video Metadata
+Extracted Rules (Text)
+Visual Examples (Image + Annotations)
+Backtest Validation Results
+Deliverables
+youtube_extractor.py: Script to get text from video.
+vision_prompt.md: The exact prompt to send to a Vision AI.
+knowledge_schema.json: The database structure for the AI's brain.
+Dependencies
+youtube-transcript-api
+requests (for downloading thumbnails/images)

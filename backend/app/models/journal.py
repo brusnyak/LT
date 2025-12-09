@@ -13,8 +13,8 @@ class TradeRecord(BaseModel):
     entry_price: float
     sl_price: float
     tp_price: float
-    close_price: float | None
-    outcome: Literal['TP_HIT', 'SL_HIT', 'ACTIVE'] | None
+    close_price: float | None = None
+    outcome: Literal['TP_HIT', 'SL_HIT', 'ACTIVE', 'TP1_HIT', 'TP2_HIT'] = 'ACTIVE'
     risk_amount: float  # $ risked on this trade
     pnl: float | None  # Realized P&L
     rr_achieved: float | None  # Actual R multiple achieved

@@ -1,0 +1,335 @@
+/* Modern Account Page Styles */
+.account-page-modern {
+    padding: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Challenge Status */
+.challenge-status-modern {
+    background: linear-gradient(135deg, #1e222d 0%, #2a2e3a 100%);
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.status-header-modern {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.status-header-modern h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    color: #fff;
+}
+
+.status-badge-modern {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-badge-modern.active {
+    background: rgba(76, 175, 80, 0.2);
+    color: #4caf50;
+}
+
+.delete-challenge-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: rgba(239, 83, 80, 0.1);
+    color: #ef5350;
+    border: 1px solid rgba(239, 83, 80, 0.3);
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.delete-challenge-btn:hover {
+    background: rgba(239, 83, 80, 0.2);
+    border-color: #ef5350;
+}
+
+/* Progress Cards */
+.progress-cards-modern {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+}
+
+.progress-card-modern {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.progress-header-modern {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.progress-value-modern {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #fff;
+}
+
+.progress-bar-modern {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.progress-fill-modern {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+.progress-card-modern.success .progress-fill-modern {
+    background: linear-gradient(90deg, #4caf50, #66bb6a);
+}
+
+.progress-card-modern.warning .progress-fill-modern {
+    background: linear-gradient(90deg, #ff9800, #ffa726);
+}
+
+.progress-card-modern.danger .progress-fill-modern {
+    background: linear-gradient(90deg, #ef5350, #f44336);
+}
+
+.progress-meta-modern {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Account Configuration */
+.account-config-modern {
+    background: linear-gradient(135deg, #1e222d 0%, #2a2e3a 100%);
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.account-config-modern h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    color: #fff;
+}
+
+/* Settings Grid */
+.settings-grid-modern {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.setting-item-modern {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.setting-label-modern {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.setting-input-modern,
+.setting-select-modern {
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.setting-input-modern:focus,
+.setting-select-modern:focus {
+    outline: none;
+    border-color: #667eea;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Toggle Settings */
+.toggle-settings-modern {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+}
+
+.toggle-item-modern {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.toggle-label-modern {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.toggle-label-modern span {
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.toggle-label-modern small {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Toggle Switch */
+.toggle-switch-modern {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 24px;
+}
+
+.toggle-switch-modern input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider-modern {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: 0.3s;
+    border-radius: 24px;
+}
+
+.toggle-slider-modern:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+}
+
+.toggle-switch-modern input:checked + .toggle-slider-modern {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.toggle-switch-modern input:checked + .toggle-slider-modern:before {
+    transform: translateX(24px);
+}
+
+/* Save Button */
+.save-btn-modern {
+    width: 100%;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.save-btn-modern:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.save-btn-modern:active {
+    transform: translateY(0);
+}
+
+/* Challenge Rules */
+.challenge-rules-modern {
+    background: linear-gradient(135deg, #1e222d 0%, #2a2e3a 100%);
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.challenge-rules-modern h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    color: #fff;
+}
+
+.rules-grid-modern {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.rule-item-modern {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.rule-item-modern label {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.rule-item-modern input {
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 14px;
+}
+
+.rule-item-modern input:focus {
+    outline: none;
+    border-color: #667eea;
+    background: rgba(255, 255, 255, 0.08);
+}

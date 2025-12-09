@@ -1,0 +1,84 @@
+Trade Analysis Summary
+Dataset Overview
+Total Trades: 58 (43 in main session + 15 across other sessions)
+Main Session: 29e66975-b654-4cce-85f8-085dddd6b602 (43 trades)
+Symbol: EURUSD
+Period: December 2025
+Trading Pattern: Structure → Shift → POI → Liquidity
+Based on SMC (Smart Money Concepts) methodology documented in 
+/docs/concepts/smc_analyzer.txt
+:
+
+1. Structure (Market Context)
+Identify overall trend (bullish/bearish/ranging)
+Mark swing highs and lows
+Determine Higher Highs (HH), Higher Lows (HL), Lower Lows (LL), Lower Highs (LH)
+2. Shift (Change of Character - ChoCh / Break of Structure - BOS)
+Look for market structure breaks
+Identify trend reversals or continuations
+Confirm with liquidity sweeps
+3. POI (Point of Interest - Entry Zone)
+Order Blocks (OB):
+
+Last bullish/bearish candle before significant move
+High probability reversal zones
+Used for SL/Entry placement
+Fair Value Gaps (FVG):
+
+Imbalance in price (gap between candles)
+Price tends to return to fill gaps
+50% FVG often used as entry
+4. Liquidity (Target/TP)
+Liquidity Pools:
+
+Previous swing highs/lows
+Equal highs/lows
+50% of FVG
+Order block boundaries
+Round numbers
+Trade Entry Logic
+IF Structure = Bullish:
+    WAIT FOR Shift (BOS to upside)
+    IDENTIFY POI (Bullish OB or FVG)
+    ENTER Long at OB/FVG
+    SET SL below OB
+    SET TP at Liquidity (swing high, 50% FVG, etc.)
+IF Structure = Bearish:
+    WAIT FOR Shift (BOS to downside)
+    IDENTIFY POI (Bearish OB or FVG)
+    ENTER Short at OB/FVG
+    SET SL above OB
+    SET TP at Liquidity (swing low, 50% FVG, etc.)
+Next Steps for Phase 3: Strategy Calibration
+Analyze 58 Trades:
+
+Extract entry triggers (what POI was used?)
+Identify TP targets (which liquidity was hit?)
+Calculate success rate per setup type
+Build "Human-Trained Strategy":
+
+Codify Structure identification
+Implement Shift detection (ChoCh/BOS)
+Automate POI marking (OB + FVG)
+Define Liquidity targets
+Backtest:
+
+Test on historical data
+Compare manual vs automated performance
+Refine parameters
+Questions for User
+Which POI do you prefer?
+
+Order Blocks (OB)?
+Fair Value Gaps (FVG)?
+Both?
+Which Liquidity targets work best?
+
+Previous swing high/low?
+50% FVG?
+Equal highs/lows?
+Timeframe preference?
+
+H4 for structure?
+M30 for shift?
+M5 for entry?

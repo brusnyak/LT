@@ -1,0 +1,271 @@
+.journal-page-new {
+    height: calc(100vh - var(--header-height));
+    padding: 2rem;
+    overflow-y: auto;
+    background-color: var(--bg-surface-1);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Header */
+.journal-header-new {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.journal-header-new h1 {
+    margin: 0;
+    color: #d1d4dc;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+/* Mode Toggle */
+.mode-toggle {
+    display: flex;
+    gap: 0.5rem;
+    background: #131722;
+    padding: 0.5rem;
+    border-radius: 12px;
+}
+
+.mode-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    color: #787b86;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+}
+
+.mode-btn:hover:not(:disabled) {
+    color: #d1d4dc;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.mode-btn.active {
+    background: #2962ff;
+    color: white;
+}
+
+.mode-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.mode-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Balance Section */
+.balance-section {
+    width: 100%;
+}
+
+/* Main Content Split: 70/30 */
+.main-content-split {
+    display: grid;
+    grid-template-columns: 70% 30%;
+    gap: 2rem;
+    /* Removed min-height to allow content to dictate height */
+    margin-bottom: 2rem;
+}
+
+/* Equity Section (Left 70%) */
+.equity-section {
+    background: linear-gradient(135deg, #1e222d 0%, #252a3a 100%);
+    border: 1px solid #2b2b43;
+    border-radius: 16px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 500px; /* Ensure chart has space */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: #d1d4dc;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.chart-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.chart-btn {
+    padding: 0.5rem 1rem;
+    background: #131722;
+    border: 1px solid #2b2b43;
+    border-radius: 6px;
+    color: #787b86;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.chart-btn:hover {
+    background: #2b2b43;
+    color: #d1d4dc;
+}
+
+.chart-btn.active {
+    background: #2962ff;
+    color: white;
+    border-color: #2962ff;
+}
+
+/* Metrics Section (Right 30%) */
+.metrics-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.metrics-section h2 {
+    margin: 0;
+    color: #d1d4dc;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.metrics-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.metric-card-compact {
+    background: linear-gradient(135deg, #1e222d 0%, #252a3a 100%);
+    border: 1px solid #2b2b43;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: all 0.3s;
+}
+
+.metric-card-compact:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-color: #2962ff;
+}
+
+.metric-label {
+    color: #787b86;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.metric-value {
+    color: #2962ff;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.metric-subtitle {
+    color: #787b86;
+    font-size: 0.75rem;
+}
+
+/* Trade History Section */
+.trade-history-section {
+    background: linear-gradient(135deg, #1e222d 0%, #252a3a 100%);
+    border: 1px solid #2b2b43;
+    border-radius: 16px;
+    padding: 2rem;
+    margin-top: 3rem; /* Extra spacing from content above - increased to prevent overlap */
+}
+
+.history-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.history-btn {
+    padding: 0.5rem 1rem;
+    background: #131722;
+    border: 1px solid #2b2b43;
+    border-radius: 6px;
+    color: #787b86;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.history-btn:hover {
+    background: #2b2b43;
+    color: #d1d4dc;
+}
+
+.history-btn.danger {
+    color: #ef5350;
+    border-color: #ef5350;
+}
+
+.history-btn.danger:hover {
+    background: rgba(239, 83, 80, 0.1);
+}
+
+/* Loading */
+.loading-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    color: var(--text-secondary);
+}
+
+/* Responsive */
+@media (max-width: 1400px) {
+    .main-content-split {
+        grid-template-columns: 65% 35%;
+    }
+}
+
+@media (max-width: 1024px) {
+    .journal-page-new {
+        padding: 1rem;
+    }
+
+    .main-content-split {
+        grid-template-columns: 1fr;
+    }
+
+    .journal-header-new {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .mode-toggle {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .mode-btn span {
+        display: none;
+    }
+}

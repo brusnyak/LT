@@ -47,8 +47,8 @@ data/
 !data/.keep
 
 # Environment variables
-.env
-backend/.env
+# .env
+# backend/.env
 
 # Credentials and sensitive files
 **/credentials.py

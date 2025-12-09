@@ -1,7 +1,9 @@
 .split-view {
   display: flex;
-  flex-direction: row; /* Changed from column to row for left/right layout */
+  flex-direction: row;
   height: 100%;
+  width: 100%;
+  flex: 1;
   gap: 8px;
 }
 

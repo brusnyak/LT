@@ -1,0 +1,132 @@
+.top-bar {
+    height: var(--header-height);
+    background-color: var(--bg-surface-2);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.top-bar-left, .top-bar-center, .top-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.top-bar-center {
+    flex: 1;
+    justify-content: center;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--accent-primary);
+    letter-spacing: -0.5px;
+    text-decoration: none;
+}
+
+.divider {
+    width: 1px;
+    height: 24px;
+    background-color: var(--border-color);
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.nav-item:hover {
+    color: var(--text-primary);
+    background-color: var(--bg-surface-3);
+}
+
+.nav-item.active {
+    color: var(--accent-primary);
+    background-color: rgba(41, 98, 255, 0.1);
+}
+
+.icon-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    color: var(--text-secondary);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.icon-btn:hover {
+    color: var(--text-primary);
+    background-color: var(--bg-surface-3);
+}
+
+.tf-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 4px 8px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.tf-btn:hover {
+    color: var(--text-primary);
+    background-color: var(--bg-surface-3);
+}
+
+.tf-btn.active {
+    color: var(--accent-primary);
+    background-color: rgba(41, 98, 255, 0.1);
+}
+
+.asset-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.badge {
+    font-size: 10px;
+    padding: 2px 6px;
+    background-color: var(--bg-surface-3);
+    border-radius: 4px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}

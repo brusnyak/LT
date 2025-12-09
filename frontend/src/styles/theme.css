@@ -1,0 +1,85 @@
+/* Theme System */
+:root {
+  /* Default Dark Theme (TradingView-like) */
+  --bg-surface-1: #131722; /* Main background */
+  --bg-surface-2: #1e222d; /* Panels, Cards */
+  --bg-surface-3: #2a2e39; /* Hover states, Inputs */
+  
+  --text-primary: #d1d4dc;
+  --text-secondary: #787b86;
+  --text-tertiary: #50535e;
+  
+  --border-color: #2a2e39;
+  --border-hover: #363a45;
+  
+  --accent-primary: #2962ff;
+  --accent-hover: #1e53e5;
+  
+  --success: #26a69a;
+  --danger: #ef5350;
+  --warning: #f2a900;
+  
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+  
+  /* Layout */
+  --header-height: 56px;
+  --sidebar-width: 200px;
+}
+
+/* Light Theme Override */
+[data-theme='light'] {
+  --bg-surface-1: #ffffff;
+  --bg-surface-2: #f0f3fa;
+  --bg-surface-3: #e0e3eb;
+  
+  --text-primary: #131722;
+  --text-secondary: #5d606b;
+  --text-tertiary: #868993;
+  
+  --border-color: #e0e3eb;
+  --border-hover: #d1d4dc;
+  
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Color Palettes (Apply to both themes, but tuned for Dark) */
+[data-palette='midnight'] {
+  --bg-surface-1: #0f172a;
+  --bg-surface-2: #1e293b;
+  --bg-surface-3: #334155;
+  --accent-primary: #6366f1;
+  --accent-hover: #4f46e5;
+  --border-color: #334155;
+}
+
+[data-palette='forest'] {
+  --bg-surface-1: #022c22;
+  --bg-surface-2: #064e3b;
+  --bg-surface-3: #065f46;
+  --accent-primary: #10b981;
+  --accent-hover: #059669;
+  --border-color: #065f46;
+}
+
+[data-palette='ocean'] {
+  --bg-surface-1: #082f49;
+  --bg-surface-2: #0c4a6e;
+  --bg-surface-3: #075985;
+  --accent-primary: #0ea5e9;
+  --accent-hover: #0284c7;
+  --border-color: #0c4a6e;
+}
+
+/* Ensure Light Mode overrides palette backgrounds if needed, 
+   OR let palettes be "Dark Mode Variants". 
+   For now, let's assume palettes are "Dark Mode Themes". 
+   If user switches to Light Mode, we should probably reset palette or have light variants.
+   But simplistic approach: Palettes override base colors. */
+
+body {
+  background-color: var(--bg-surface-1);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}

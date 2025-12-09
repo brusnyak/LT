@@ -1,4 +1,5 @@
 """SMC entity models"""
+from __future__ import annotations # Enable postponed evaluation of type annotations
 from datetime import datetime
 from pydantic import BaseModel, Field
 from typing import List, Literal
@@ -33,7 +34,13 @@ class OrderBlock(BaseModel):
     timestamp: datetime
     state: Literal['active', 'touched', 'partial', 'mitigated', 'breaker']
     liquidity_swept: float | None = None
-    lookback_candles: int
+    lookback_candles: int | None = None
+    is_breaker: bool = False # Added for breaker blocks
+    original_type: Literal['bullish', 'bearish'] | None = None # Original type if it became a breaker
+    breaker_time: datetime | None = None # Timestamp when it became a breaker
+    # Added for consistency with mitigation logic in order_blocks.py
+    filled: bool = False
+    mitigation_level: int = 0 # 0=untouched, 1=25%, 2=50%, 3=75%, 4=100%
 
 
 class FairValueGap(BaseModel):
@@ -45,6 +52,29 @@ class FairValueGap(BaseModel):
     bottom: float
     timestamp: datetime
     filled: bool = False
+    mitigation_level: int = 0 # 0=untouched, 1=25%, 2=50%, 3=75%, 4=100%
+
+
+class Session(BaseModel):
+    """Trading session details"""
+    name: str
+    start_time: datetime
+    end_time: datetime
+    high: float
+    low: float
+    open: float
+    close: float
+    active: bool
+
+
+class PremiumDiscountZone(BaseModel):
+    """Premium/Discount/OTE zones"""
+    type: Literal['premium', 'discount', 'equilibrium', 'ote']
+    start_time: datetime
+    end_time: datetime
+    top: float
+    bottom: float
+    color: str # Hex color code
 
 
 class LiquidityZone(BaseModel):
@@ -54,6 +84,8 @@ class LiquidityZone(BaseModel):
     timestamp: datetime
     index: int
     swept: bool = False
+    sweep_time: datetime | None = None
+    subtype: str | None = None # Added subtype
 
 
 class OrderBlockResponse(BaseModel):
@@ -65,8 +97,8 @@ class OrderBlockResponse(BaseModel):
     low: float
     mid: float
     state: Literal['active', 'touched', 'partial', 'mitigated', 'breaker']
-    liquidity_swept: float
-    lookback_candles: int
+    liquidity_swept: float | None = None
+    lookback_candles: int | None = None
 
 
 class OrderBlockAnalysis(BaseModel):
@@ -130,6 +162,8 @@ class LiquidityZoneResponse(BaseModel):
     timestamp: datetime
     index: int
     swept: bool
+    sweep_time: datetime | None = None
+    subtype: str | None = None
 
 
 class LiquidityAnalysis(BaseModel):
@@ -140,4 +174,3 @@ class LiquidityAnalysis(BaseModel):
     total_zones: int
     bsl_count: int
     ssl_count: int
-

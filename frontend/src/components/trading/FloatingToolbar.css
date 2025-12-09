@@ -1,0 +1,53 @@
+.floating-toolbar {
+    position: absolute;
+    top: 80px;
+    left: 20px;
+    background-color: var(--bg-surface-2);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+    z-index: 100;
+    cursor: move;
+    user-select: none;
+}
+
+.floating-toolbar-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.floating-toolbar-tools {
+    display: flex;
+    gap: 4px;
+    padding: 8px;
+}
+
+.floating-tool-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.floating-tool-btn:hover {
+    background-color: var(--bg-surface-3);
+    color: var(--text-primary);
+}
+
+.floating-tool-btn.active {
+    background-color: rgba(41, 98, 255, 0.15);
+    color: var(--accent-primary);
+}

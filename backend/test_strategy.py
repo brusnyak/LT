@@ -1,9 +1,4 @@
-import sys
-import os
 import pandas as pd
-
-# Add app to path
-sys.path.append(os.getcwd())
 
 from app.core.data_loader import load_candle_data
 from app.strategies.range_4h import detect_4h_range, analyze_5m_signals

@@ -10,18 +10,64 @@ install:
 # Run Backend (FastAPI)
 run-backend:
 	@echo "Starting Backend..."
-	cd backend && . venv/bin/activate && uvicorn app.main:app --reload --port 9000
+	cd backend && . venv/bin/activate && PYTHONPATH=. uvicorn app.main:app --reload --port 9000
+
+back: run-backend
+
+# Run Backend Tests
+test-backend:
+	@echo "Running Backend Tests..."
+	cd backend && . venv/bin/activate && pytest tests/
+
+# Run Backtest Script
+run-backtest:
+	@echo "Running Multi-Pair Backtest..."
+	cd backend && . venv/bin/activate && python3 run_backtest.py
 
 # Run Frontend (Vite)
 run-frontend:
 	@echo "Starting Frontend..."
 	cd frontend && npm run dev
 
-# Run Both (requires parallel execution support like make -j2)
-# Usage: make -j2 run-all
-run-all: run-backend run-frontend
+front: run-frontend
+
+# Run Both Backend + Frontend (requires parallel execution)
+# Usage: make -j2 run
+run: run-backend run-frontend
+
+# Run Telegram Signal Monitor (background signal monitoring)
+tele:
+	@echo "Starting Telegram Signal Monitor..."
+	cd backend && python3 signal_monitor.py
+
+# Run Telegram Bot (interactive mode)
+tele-bot:
+	@echo "Starting Telegram Bot (interactive)..."
+	cd backend && python3 telegram_bot.py
+
+# Test Telegram Bot
+tele-test:
+	@echo "Testing Telegram Bot..."
+	cd backend && python3 test_telegram_bot.py
+
+# End-to-end Telegram test (requires backend running)
+tele-e2e:
+	@echo "Running E2E Telegram Test..."
+	@echo "Make sure backend is running: make back"
+	cd backend && python3 test_telegram_e2e.py
+
+# Run Backend + Telegram Monitor together
+monitor:
+	@echo "Starting Backend + Telegram Monitor..."
+	./start_monitor.sh
+
+# Check for trading inactivity (run daily via cron)
+check-inactivity:
+	@echo "Checking for trading inactivity..."
+	cd backend && . venv/bin/activate && python3 check_inactivity.py
 
 # Clean up venv and node_modules
 clean:
 	rm -rf backend/venv
 	rm -rf frontend/node_modules
+

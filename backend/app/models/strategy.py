@@ -13,19 +13,38 @@ class RangeLevel(BaseModel):
     
 class Signal(BaseModel):
     """Trading Signal"""
-    time: datetime
     type: Literal['LONG', 'SHORT']
-    price: float
+    entry: float = Field(..., alias='price', description="Entry price")
     sl: float
     tp: float
-    reason: str
-    status: Literal['PENDING', 'ACTIVE', 'CLOSED'] = 'PENDING'
+    tp2: float | None = None
+    tp_split: float = 0.5
+    rr: float = 0.0
+    time: datetime | None = None
+    pair: str | None = None
+    reason: str = ""
+    status: Literal['PENDING', 'ACTIVE', 'CLOSED', 'PARTIAL'] = 'PENDING'
     close_time: datetime | None = None
     close_price: float | None = None
-    outcome: Literal['TP_HIT', 'SL_HIT'] | None = None
+    outcome: Literal['TP_HIT', 'SL_HIT', 'TP1_HIT', 'TP2_HIT'] | None = None
+    confidence: float = 0.5
+    timeframe: str = 'M15'
+    poi_type: str | None = None
+    structure: str | None = None
+    
+    class Config:
+        populate_by_name = True  # Allow both 'entry' and 'price'
+        
+    @property
+    def price(self):
+        """Alias for entry"""
+        return self.entry
 
 class StrategyResponse(BaseModel):
     """Strategy Analysis Response"""
     pair: str
-    ranges: List[RangeLevel]
-    signals: List[Signal]
+    timeframe: str = "M15"
+    strategy: str = "Unknown"
+    ranges: List[RangeLevel] = []
+    signals: List[Signal] = []
+    analysis: dict = {}

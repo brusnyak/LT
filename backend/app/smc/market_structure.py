@@ -10,8 +10,9 @@ Detection:
 2. Compare consecutive swings to identify structure breaks
 3. Label as BOS or CHOCH based on pattern
 """
-from typing import List, Dict, Literal
+from typing import List, Dict, Literal, Optional
 import pandas as pd
+from app.models.smc import SwingPoint, MarketStructureEvent # Import SwingPoint and MarketStructureEvent models
 
 
 class MarketStructureDetector:
@@ -33,154 +34,96 @@ class MarketStructureDetector:
     def detect_structure(
         self, 
         df: pd.DataFrame,
-        swing_highs: List[int],
-        swing_lows: List[int],
-        confirmation_candles: int = 2
-    ) -> List[Dict]:
+        classified_swings: List[SwingPoint],
+    ) -> List[MarketStructureEvent]:
         """
-        Detect market structure shifts using crossover logic with confirmation
-        
-        BOS/CHOCH is detected when price crosses a swing pivot level:
-        - Bullish: Price closes above swing high (with confirmation for CHOCH)
-        - Bearish: Price closes below swing low (with confirmation for CHOCH)
+        Detect market structure shifts (BOS and CHOCH) using classified swing points.
         
         Args:
-            df: OHLCV dataframe
-            swing_highs: Indices of swing high points
-            swing_lows: Indices of swing low points
-            confirmation_candles: Number of candles to confirm CHOCH (default: 2)
+            df: OHLCV dataframe (used for timestamps and prices)
+            classified_swings: List of SwingPoint objects (HH, HL, LH, LL)
             
         Returns:
-            List of structure events (BOS/CHOCH) with line coordinates
+            List of MarketStructureEvent objects
         """
-        structure_events = []
+        structure_events: List[MarketStructureEvent] = []
         
-        if len(swing_highs) < 1 or len(swing_lows) < 1:
+        if len(classified_swings) < 2:
             return structure_events
         
-        # Track current trend
-        current_trend = None  # 'bullish' or 'bearish'
+        # Track the current market structure bias
+        # 'bullish' (HH, HL sequence), 'bearish' (LH, LL sequence), or 'ranging'
+        current_structure_bias: Literal['bullish', 'bearish', 'ranging'] = 'ranging'
         
-        # Track which pivots have been crossed
-        crossed_highs = set()
-        crossed_lows = set()
-        
-        # Go through each candle
-        for i in range(len(df)):
-            close_price = df['close'].iloc[i]
-            
-            # Check for crossover of swing highs (bullish structure)
-            for swing_idx in swing_highs:
-                if swing_idx >= i:  # Only consider past swings
-                    continue
-                if swing_idx in crossed_highs:  # Already crossed
-                    continue
-                    
-                swing_high_price = df['high'].iloc[swing_idx]
-                
-                # Price crossed above swing high
-                if close_price > swing_high_price:
-                    # Determine if BOS or CHOCH
-                    if current_trend == 'bullish':
-                        tag = 'BOS'  # Continuation - no confirmation needed
-                    else:
-                        # CHOCH - need confirmation
-                        tag = 'CHOCH'
-                        
-                        # Check if we have enough candles ahead for confirmation
-                        if i + confirmation_candles >= len(df):
-                            continue  # Not enough candles to confirm
-                        
-                        # Verify price stays above for confirmation_candles
-                        confirmed = True
-                        for j in range(1, confirmation_candles + 1):
-                            if df['close'].iloc[i + j] <= swing_high_price:
-                                confirmed = False
-                                break
-                        
-                        if not confirmed:
-                            continue  # Wait for confirmation
-                        
-                        current_trend = 'bullish'
-                    
-                    # Find origin of the move (most recent swing low before this break)
-                    # We want the last swing low that is < i
-                    origin_idx = None
-                    for sl_idx in reversed(swing_lows):
-                        if sl_idx < i:
-                            origin_idx = sl_idx
-                            break
-                    
-                    structure_events.append({
-                        'type': tag,
-                        'direction': 'bullish',
-                        'index': i,
-                        'price': swing_high_price,
-                        'timestamp': df.index[i],
-                        'description': f'{"Higher High" if tag == "BOS" else "Trend shift to bullish (confirmed)"}',
-                        'pivot_index': swing_idx,
-                        'pivot_timestamp': df.index[swing_idx],
-                        'impulse_origin_index': origin_idx  # Added for OB detection
-                    })
-                    
-                    crossed_highs.add(swing_idx)
-                    break  # Only one structure per candle
-            
-            # Check for crossunder of swing lows (bearish structure)
-            for swing_idx in swing_lows:
-                if swing_idx >= i:  # Only consider past swings
-                    continue
-                if swing_idx in crossed_lows:  # Already crossed
-                    continue
-                    
-                swing_low_price = df['low'].iloc[swing_idx]
-                
-                # Price crossed below swing low
-                if close_price < swing_low_price:
-                    # Determine if BOS or CHOCH
-                    if current_trend == 'bearish':
-                        tag = 'BOS'  # Continuation - no confirmation needed
-                    else:
-                        # CHOCH - need confirmation
-                        tag = 'CHOCH'
-                        
-                        # Check if we have enough candles ahead for confirmation
-                        if i + confirmation_candles >= len(df):
-                            continue  # Not enough candles to confirm
-                        
-                        # Verify price stays below for confirmation_candles
-                        confirmed = True
-                        for j in range(1, confirmation_candles + 1):
-                            if df['close'].iloc[i + j] >= swing_low_price:
-                                confirmed = False
-                                break
-                        
-                        if not confirmed:
-                            continue  # Wait for confirmation
-                        
-                        current_trend = 'bearish'
-                    
-                    # Find origin of the move (most recent swing high before this break)
-                    # We want the last swing high that is < i
-                    origin_idx = None
-                    for sh_idx in reversed(swing_highs):
-                        if sh_idx < i:
-                            origin_idx = sh_idx
-                            break
+        # Iterate through classified swings to identify patterns
+        for i in range(1, len(classified_swings)):
+            prev_swing = classified_swings[i-1]
+            current_swing = classified_swings[i]
 
-                    structure_events.append({
-                        'type': tag,
-                        'direction': 'bearish',
-                        'index': i,
-                        'price': swing_low_price,
-                        'timestamp': df.index[i],
-                        'description': f'{"Lower Low" if tag == "BOS" else "Trend shift to bearish (confirmed)"}',
-                        'pivot_index': swing_idx,
-                        'pivot_timestamp': df.index[swing_idx],
-                        'impulse_origin_index': origin_idx  # Added for OB detection
-                    })
-                    
-                    crossed_lows.add(swing_idx)
-                    break  # Only one structure per candle
+            # Determine if current_swing is a higher/lower high/low relative to the *previous relevant swing*
+            # This logic is simplified by the `classify_swings` method in SwingDetector
+            
+            # Check for BOS (Break of Structure)
+            if current_swing.type == 'HH' and prev_swing.type == 'HL' and current_structure_bias == 'bullish':
+                # Bullish BOS: Higher High after a Higher Low in a bullish trend
+                structure_events.append(MarketStructureEvent(
+                    type='BOS',
+                    direction='bullish',
+                    index=current_swing.index,
+                    price=current_swing.price,
+                    timestamp=current_swing.timestamp,
+                    description='Bullish Break of Structure (HH)',
+                    pivot_index=prev_swing.index,
+                    pivot_timestamp=prev_swing.timestamp
+                ))
+                current_structure_bias = 'bullish' # Confirm bullish continuation
+            elif current_swing.type == 'LL' and prev_swing.type == 'LH' and current_structure_bias == 'bearish':
+                # Bearish BOS: Lower Low after a Lower High in a bearish trend
+                structure_events.append(MarketStructureEvent(
+                    type='BOS',
+                    direction='bearish',
+                    index=current_swing.index,
+                    price=current_swing.price,
+                    timestamp=current_swing.timestamp,
+                    description='Bearish Break of Structure (LL)',
+                    pivot_index=prev_swing.index,
+                    pivot_timestamp=prev_swing.timestamp
+                ))
+                current_structure_bias = 'bearish' # Confirm bearish continuation
+
+            # Check for CHOCH (Change of Character)
+            # Bullish CHOCH: A bearish trend (LH, LL) is broken by a HL followed by a HH
+            if current_swing.type == 'HH' and prev_swing.type == 'HL' and current_structure_bias == 'bearish':
+                structure_events.append(MarketStructureEvent(
+                    type='CHOCH',
+                    direction='bullish',
+                    index=current_swing.index,
+                    price=current_swing.price,
+                    timestamp=current_swing.timestamp,
+                    description='Change of Character (Bullish)',
+                    pivot_index=prev_swing.index,
+                    pivot_timestamp=prev_swing.timestamp
+                ))
+                current_structure_bias = 'bullish' # Trend has shifted to bullish
+            # Bearish CHOCH: A bullish trend (HH, HL) is broken by a LH followed by a LL
+            elif current_swing.type == 'LL' and prev_swing.type == 'LH' and current_structure_bias == 'bullish':
+                structure_events.append(MarketStructureEvent(
+                    type='CHOCH',
+                    direction='bearish',
+                    index=current_swing.index,
+                    price=current_swing.price,
+                    timestamp=current_swing.timestamp,
+                    description='Change of Character (Bearish)',
+                    pivot_index=prev_swing.index,
+                    pivot_timestamp=prev_swing.timestamp
+                ))
+                current_structure_bias = 'bearish' # Trend has shifted to bearish
+            
+            # Update current_structure_bias if it's ranging or just starting
+            if current_structure_bias == 'ranging':
+                if current_swing.type == 'HH' or current_swing.type == 'HL':
+                    current_structure_bias = 'bullish'
+                elif current_swing.type == 'LH' or current_swing.type == 'LL':
+                    current_structure_bias = 'bearish'
         
         return structure_events

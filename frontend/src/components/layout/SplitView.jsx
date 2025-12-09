@@ -1,45 +1,16 @@
-/**
- * SplitView Component
- * Displays two synchronized charts (4H and 5M)
- */
 import React from 'react';
-import TradingViewChart from '../chart/TradingViewChart';
-import './SplitView.css';
+import { PanelGroup, Panel, PanelResizeHandle } from 'react-resizable-panels';
 
-function SplitView({ 
-    data4H, 
-    data5M, 
-    pair, 
-    ranges, 
-    signals,
-    showPositions = true
-}) {
+export default function SplitView({ topChart, bottomChart }) {
     return (
-        <div className="split-view">
-            <div className="split-view-top">
-                <div className="chart-label">4H - Context</div>
-                <TradingViewChart
-                    data={data4H}
-                    pair={pair}
-                    ranges={ranges}
-                    signals={signals}
-                    timeframe="4H"
-                    showPositions={showPositions}
-                />
-            </div>
-            <div className="split-view-bottom">
-                <div className="chart-label">5M - Execution</div>
-                <TradingViewChart
-                    data={data5M}
-                    pair={pair}
-                    ranges={ranges}
-                    signals={signals}
-                    timeframe="5M"
-                    showPositions={showPositions}
-                />
-            </div>
-        </div>
+        <PanelGroup direction="vertical">
+            <Panel minSize={30}>
+                {topChart}
+            </Panel>
+            <PanelResizeHandle className="resize-handle" />
+            <Panel minSize={30}>
+                {bottomChart}
+            </Panel>
+        </PanelGroup>
     );
 }
-
-export default SplitView;

@@ -21,7 +21,27 @@
     flex-direction: column;
 }
 
-.panel-header {
+.strategy-selector {
+    margin-left: 20px;
+    margin-right: auto;
+}
+
+.strategy-select {
+    background: #2a2e39;
+    color: #d1d5db;
+    border: 1px solid #363a45;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.strategy-select:focus {
+    outline: none;
+    border-color: #3b82f6;
+}
+
+.app-header {
     height: 40px;
     padding: 0 var(--spacing-md);
     display: flex;

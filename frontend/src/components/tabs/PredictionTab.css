@@ -1,0 +1,110 @@
+.prediction-tab {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: #1e222d;
+}
+
+.prediction-intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #d1d5db;
+    text-align: center;
+}
+
+.prediction-intro h2 {
+    font-size: 24px;
+    margin-bottom: 16px;
+    color: #f3f4f6;
+}
+
+.prediction-intro p {
+    margin-bottom: 32px;
+    color: #9ca3af;
+}
+
+.prediction-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background: #2a2e39;
+    border-bottom: 1px solid #363a45;
+}
+
+.control-group {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-control {
+    padding: 8px 16px;
+    background: #363a45;
+    border: 1px solid #4b5563;
+    border-radius: 6px;
+    color: #e5e7eb;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-control:hover:not(:disabled) {
+    background: #4b5563;
+}
+
+.btn-control.active {
+    background: #3b82f6;
+    border-color: #2563eb;
+    color: white;
+}
+
+.btn-control:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.stats-group {
+    display: flex;
+    gap: 24px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.stat-item .label {
+    font-size: 11px;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.stat-item .value {
+    font-size: 15px;
+    font-weight: 600;
+    color: #f3f4f6;
+}
+
+.stat-item .value.BULLISH {
+    color: #10b981;
+}
+
+.stat-item .value.BEARISH {
+    color: #ef4444;
+}
+
+.stat-item .value.NEUTRAL {
+    color: #9ca3af;
+}
+
+.prediction-chart {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}

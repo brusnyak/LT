@@ -1,0 +1,17 @@
+INFO:     Started server process [11128]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:9000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:55929 - "POST /api/trainer/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55931 - "POST /api/trainer/sessions/7ac93ea3-d256-4e9b-9b85-0ef5754136ba/trades HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55933 - "GET /api/trainer/sessions/7ac93ea3-d256-4e9b-9b85-0ef5754136ba HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55466 - "GET /api/analysis/journal?pair=XAUUSD HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55466 - "GET /api/analysis/journal?pair=XAUUSD HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51847 - "GET /api/trainer/sessions/29e66975-b654-4cce-85f8-085dddd6b602 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53274 - "GET /api/trainer/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53274 - "GET /api/trainer/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53274 - "GET /api/trainer/sessions/29e66975-b654-4cce-85f8-085dddd6b602 HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [11128]

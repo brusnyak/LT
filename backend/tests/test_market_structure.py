@@ -3,14 +3,10 @@
 Market Structure Detection Test
 Validates BOS/CHOCH detection accuracy by printing detailed results
 """
-import sys
 import pandas as pd
 from pathlib import Path
 
-# Add backend to path
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
-from app.core.data_loader import data_loader
+from app.core.data_loader import load_candle_data # Corrected import
 from app.core.constants import Pair, Timeframe
 from app.smc.swings import SwingDetector, get_optimal_lookback
 from app.smc.order_blocks import OrderBlockDetector
@@ -27,18 +23,16 @@ def test_market_structure(pair: str = "EURUSD", timeframe: str = "M30", limit: i
     print(f"{'='*80}\n")
     
     # Load data
-    pair_enum = Pair(pair)
-    timeframe_enum = Timeframe(timeframe)
-    df = data_loader.load(pair_enum, timeframe_enum).tail(limit)
+    df = load_candle_data(pair, timeframe, limit=limit) # Corrected function call
     
     print(f"✓ Loaded {len(df)} candles")
     print(f"  Date range: {df.index[0]} to {df.index[-1]}\n")
     
     # Detect swings
-    swing_length = get_optimal_lookback(timeframe)
-    print(f"✓ Using swing length: {swing_length}")
+    swing_lookback_left, swing_lookback_right = get_optimal_lookback(timeframe)
+    print(f"✓ Using swing lookback: {swing_lookback_left}, {swing_lookback_right}")
     
-    swing_detector = SwingDetector(swing_length=swing_length)
+    swing_detector = SwingDetector(lookback_left=swing_lookback_left, lookback_right=swing_lookback_right)
     swing_highs, swing_lows = swing_detector.detect_swings(df)
     
     print(f"✓ Detected {len(swing_highs)} swing highs, {len(swing_lows)} swing lows\n")

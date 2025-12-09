@@ -1,0 +1,54 @@
+.chart-overlay-controls {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: var(--bg-surface-2);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: var(--shadow-sm);
+    z-index: 10;
+    min-width: 160px;
+}
+
+.controls-header {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    padding: 0 4px;
+}
+
+.controls-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.control-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+}
+
+.control-item:hover {
+    background-color: var(--bg-surface-3);
+    color: var(--text-primary);
+}
+
+.control-item input[type="checkbox"] {
+    margin: 0;
+    cursor: pointer;
+}
+
+.control-item input[type="checkbox"]:checked + svg {
+    color: var(--accent-primary);
+}

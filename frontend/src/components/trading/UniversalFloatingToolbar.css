@@ -1,0 +1,62 @@
+.universal-floating-toolbar {
+    background: #1e222d;
+    border: 1px solid #2a2e39;
+    border-radius: 6px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    width: auto;
+    min-width: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.toolbar-header {
+    background: #2a2e39;
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: grab;
+    user-select: none;
+    color: #9db2bf;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.toolbar-header:active {
+    cursor: grabbing;
+}
+
+.toolbar-grid {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 4px;
+    gap: 4px;
+    max-width: 90px; /* Force wrap if many items, creating a compact block */
+}
+
+.tool-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    color: #b2b5be;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.tool-btn:hover {
+    background: #2a2e39;
+    color: #f0f3fa;
+}
+
+.tool-btn.active {
+    background: #2962ff;
+    color: white;
+}

@@ -1,0 +1,75 @@
+.left-toolbar {
+    background-color: var(--bg-surface-2);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    width: var(--sidebar-width);
+    transition: width 0.3s ease;
+}
+
+.left-toolbar.collapsed {
+    width: 48px;
+}
+
+.toolbar-header {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 12px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.collapse-btn {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.collapse-btn:hover {
+    background-color: var(--bg-surface-3);
+    color: var(--text-primary);
+}
+
+.toolbar-tools {
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    gap: 4px;
+}
+
+.tool-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s;
+    font-size: 13px;
+    text-align: left;
+}
+
+.tool-btn:hover {
+    background-color: var(--bg-surface-3);
+    color: var(--text-primary);
+}
+
+.tool-btn.active {
+    background-color: rgba(41, 98, 255, 0.15);
+    color: var(--accent-primary);
+}
+
+.tool-label {
+    white-space: nowrap;
+}

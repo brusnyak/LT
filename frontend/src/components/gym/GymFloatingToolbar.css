@@ -1,0 +1,49 @@
+.gym-floating-toolbar {
+    background: #1e222d;
+    border: 1px solid #2b2b43;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    cursor: move;
+    user-select: none;
+}
+
+.gym-floating-toolbar-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-bottom: 1px solid #2b2b43;
+    color: #787b86;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.gym-floating-toolbar-tools {
+    display: flex;
+    gap: 4px;
+    padding: 8px;
+}
+
+.gym-floating-tool-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #2b2b43;
+    border: none;
+    border-radius: 4px;
+    color: #787b86;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.gym-floating-tool-btn:hover {
+    background: #363a45;
+    color: #d1d4dc;
+}
+
+.gym-floating-tool-btn.active {
+    background: #2962ff;
+    color: white;
+}

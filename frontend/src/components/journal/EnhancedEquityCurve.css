@@ -1,0 +1,40 @@
+.enhanced-equity-curve {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+}
+
+.enhanced-tooltip {
+    background: rgba(30, 34, 45, 0.95);
+    border: 1px solid #2b2b43;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.tooltip-date {
+    color: #787b86;
+    font-size: 0.75rem;
+    margin: 0 0 0.5rem 0;
+}
+
+.tooltip-balance {
+    color: #d1d4dc;
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin: 0 0 0.25rem 0;
+}
+
+.tooltip-change {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.tooltip-change.positive {
+    color: #26a69a;
+}
+
+.tooltip-change.negative {
+    color: #ef5350;
+}
