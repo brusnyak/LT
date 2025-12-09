@@ -225,6 +225,7 @@ export default function GymPage() {
                 id: crypto.randomUUID(), // Generate ID here or let backend do it
                 session_id: session.id,
                 symbol: selectedPair,
+                timeframe: timeframe, // Add timeframe for correct backend calculation
                 entry_time: new Date(activePosition.entryTime).toISOString(),
                 type: activePosition.type,
                 entry_price: activePosition.entry,

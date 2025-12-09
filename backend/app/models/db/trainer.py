@@ -28,6 +28,7 @@ class DBManualTrade(Base):
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     session_id = Column(String, ForeignKey("trainer_sessions.id"), nullable=False)
     symbol = Column(String, nullable=False)
+    timeframe = Column(String, nullable=True) # e.g. "M5", "H1"
     
     # Entry data
     entry_time = Column(DateTime, nullable=False)

@@ -9,6 +9,7 @@ import {
     Minus,
     Triangle,
     Circle,
+    Square, // Added
     Type,
     Ruler,
     MousePointer2
@@ -24,6 +25,7 @@ const TOOL_DEFINITIONS = {
     screenshot: { icon: Camera, label: 'Screenshot' },
     trendline: { icon: TrendingUp, label: 'Trendline' }, // Reusing icon for example, usually a line
     hline: { icon: Minus, label: 'Horz Line' },
+    rect: { icon: Square, label: 'Rectangle' }, // Added
     fib: { icon: Ruler, label: 'Fibonacci' },
     triangle: { icon: Triangle, label: 'Triangle' },
     circle: { icon: Circle, label: 'Circle' },

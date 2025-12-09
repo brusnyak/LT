@@ -56,10 +56,12 @@ def log_trade(session_id: str, trade: ManualTrade, db: Session = Depends(get_db)
         raise HTTPException(status_code=404, detail="Session not found")
     
     # Create trade object (not saved yet)
+    # Create trade object (not saved yet)
     db_trade = DBManualTrade(
         id=trade.id,
         session_id=session_id,
         symbol=trade.symbol,
+        timeframe=trade.timeframe,
         entry_time=trade.entry_time,
         type=trade.type,
         entry_price=trade.entry_price,
@@ -74,12 +76,17 @@ def log_trade(session_id: str, trade: ManualTrade, db: Session = Depends(get_db)
         from app.core.data_loader import load_candle_data
         import pytz
         
-        # Load M1 data starting from entry time to find outcome
-        # Using M1 for reasonable precision
-        # load_candle_data doesn't support start_date directly, so we load a large chunk and filter
-        df = load_candle_data(trade.symbol, "M1", limit=10000)
-        # Note: load_candle_data logic for 'start_date' arg might be simpler to just load and filter
+        # Load data - LOAD ALL to ensure we cover historical trades
+        # Use the trade's timeframe to match what the user sees
+        tf = trade.timeframe if trade.timeframe else "M5"
+        print(f"DEBUG: Loading {tf} data for {trade.symbol}...")
+        df = load_candle_data(trade.symbol, tf, limit=0)
         
+        if not df.empty:
+            print(f"DEBUG: Loaded {len(df)} rows. Data Range: {df.index[0]} to {df.index[-1]}")
+        else:
+            print("DEBUG: Loaded empty DataFrame")
+
         # Filter for data after entry
         # Handle Timezone: DF is Europe/Bratislava, trade.entry_time is likely UTC (from frontend ISO)
         bratislava_tz = pytz.timezone('Europe/Bratislava')
@@ -92,8 +99,10 @@ def log_trade(session_id: str, trade: ManualTrade, db: Session = Depends(get_db)
             
         # Convert entry time to target timezone for comparison
         entry_dt = entry_utc.astimezone(bratislava_tz)
+        print(f"DEBUG: Trade Entry: {entry_dt}")
         
         future_data = df[df.index >= entry_dt].sort_index()
+        print(f"DEBUG: Future data points found: {len(future_data)}")
 
         outcome = "OPEN"
         close_time = None
@@ -132,6 +141,8 @@ def log_trade(session_id: str, trade: ManualTrade, db: Session = Depends(get_db)
                     close_price = trade.tp_price
                     close_time = ts
                     break
+                    
+        print(f"DEBUG: Calculated Outcome: {outcome}, Close Price: {close_price}")
         
         # Apply outcome if found
         if outcome != "OPEN":

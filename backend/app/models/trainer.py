@@ -10,6 +10,7 @@ class ManualTrade(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     session_id: str
     symbol: str
+    timeframe: Optional[str] = "M5" # Default to M5 if not provided
     entry_time: datetime
     exit_time: Optional[datetime] = None # Optional exit time
     type: Literal['LONG', 'SHORT']
@@ -21,7 +22,7 @@ class ManualTrade(BaseModel):
     close_time: Optional[datetime] = None
     close_price: Optional[float] = None
     pnl: Optional[float] = None
-    outcome: Optional[Literal['WIN', 'LOSS', 'BE', 'OPEN']] = None
+    outcome: Optional[Literal['WIN', 'LOSS', 'BE', 'OPEN', 'TP_HIT', 'SL_HIT']] = None
     screenshot_path: Optional[str] = None
     
     # Snapshot of market state at entry (for calibration)

@@ -9,7 +9,7 @@ export function ToolProvider({ children }) {
     const [favoriteTools, setFavoriteTools] = useState(() => {
         const saved = localStorage.getItem('smc-fav-tools');
         // Default favorites
-        return saved ? JSON.parse(saved) : ['long', 'short', 'screenshot', 'trendline'];
+        return saved ? JSON.parse(saved) : ['cursor', 'long', 'short', 'screenshot', 'trendline', 'rect'];
     });
 
     const [lastUsedTools, setLastUsedTools] = useState([]);
